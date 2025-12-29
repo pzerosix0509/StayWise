@@ -7,7 +7,8 @@ import { loadInfoPageReviews } from "./reviews_loader.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { 
     getFirestore, collection, addDoc, getDocs, 
-    query, where, orderBy, deleteDoc, doc, setDoc
+    query, where, orderBy, deleteDoc, doc, setDoc,
+    increment, updateDoc, getDoc
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -75,7 +76,72 @@ function showBlackToast(message) {
 function getLang() {
     return localStorage.getItem('staywise_lang') || 'vi';
 }
+// --- HÀM GHI NHẬN LỊCH SỬ XEM (MỚI) ---
+// --- HÀM GHI NHẬN LỊCH SỬ XEM (BẢN DEBUG) ---
+async function logViewAggregated(hotelId) {
+    console.log("🚀 [DEBUG] Bắt đầu chạy hàm lưu lịch sử xem...");
 
+    try {
+        // 1. Kiểm tra đăng nhập
+        const raw = localStorage.getItem(USER_STORAGE_KEY);
+        if (!raw) {
+            console.warn("❌ [DEBUG] Dừng lại: Người dùng CHƯA ĐĂNG NHẬP (localStorage trống).");
+            return; // Dừng tại đây nếu chưa đăng nhập
+        }
+
+        const user = JSON.parse(raw);
+        const userId = user.uid;
+        if (!userId) {
+            console.warn("❌ [DEBUG] Dừng lại: Dữ liệu user bị lỗi (Không có UID).");
+            return;
+        }
+
+        console.log(`✅ [DEBUG] User hợp lệ: ${userId}. Đang lưu hotel ID: ${hotelId}`);
+
+        const docRef = doc(db, "user_views", userId);
+        
+        // 2. Đọc dữ liệu cũ
+        const snap = await getDoc(docRef);
+        let viewedList = [];
+        
+        if (snap.exists()) {
+            const data = snap.data();
+            if (Array.isArray(data.viewedList)) {
+                viewedList = data.viewedList;
+            }
+        }
+
+        const strId = String(hotelId);
+
+        // 3. Xử lý mảng (Xóa cũ, thêm mới vào đầu)
+        viewedList = viewedList.filter(id => String(id) !== strId);
+        viewedList.unshift(strId);
+
+        // Giới hạn 20 item
+        if (viewedList.length > 20) {
+            viewedList = viewedList.slice(0, 20);
+        }
+
+        // 4. Lưu vào Firestore
+        await setDoc(docRef, {
+            viewedList: viewedList,
+            [`views.${strId}`]: increment(1),       
+            [`lastViewed.${strId}`]: Date.now(),    
+            updatedAt: Date.now()
+        }, { merge: true });
+
+        // Xóa cache
+        try { localStorage.removeItem(`reco_cache_${userId}`); } catch (e) {}
+        
+        console.log("🎉 [DEBUG] LƯU THÀNH CÔNG LÊN FIRESTORE!");
+
+    } catch (e) {
+        console.error("🔥 [DEBUG] LỖI NGHIÊM TRỌNG:", e);
+        if (e.code === 'permission-denied') {
+            alert("Lỗi quyền truy cập Firestore! Bạn chưa setup Rule cho phép ghi vào 'user_views'.");
+        }
+    }
+}
 function getHotelTypeIcon(type) {
     const key = (type || '').toLowerCase().trim();
     if (key === 'hotel') return '<i class="bi bi-building"></i>';
@@ -1019,6 +1085,7 @@ async function loadPageData() {
             renderMainFacilities(hotel);
             renderAttractions(hotel);
             renderGroupedFacilities(hotel);
+            logViewAggregated(currentHotelId);
 
             // --- [MAP LOGIC] ---
             const mapFrame = document.getElementById("hotel-map-frame");

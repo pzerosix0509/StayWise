@@ -27,7 +27,7 @@ const UI_TRANSLATIONS = {
         placeholder_max: "Giá tối đa",
 
         stat_props: "Chỗ nghỉ",
-        stat_provs: "Tỉnh thành",
+        stat_provs: "Thành Phố",
         stat_rating: "Điểm đánh giá",
         why_title: "Tại sao chọn StayWise của chúng tôi?",
         feat_ai: "Đề xuất được hỗ trợ bởi AI",
@@ -330,6 +330,14 @@ const UI_TRANSLATIONS = {
         modal_del_desc_confirm: "Hành động này không thể hoàn tác. Để tiếp tục, vui lòng nhập mật khẩu của bạn.",
         ph_del_pass: "Nhập mật khẩu của bạn",
         btn_del_perm: "Xóa vĩnh viễn",
+        nav_viewed: "Khách sạn đã xem", // Đã có trong sidebar
+        sec_viewed_title: "Khách sạn đã xem gần đây",
+        sec_viewed_desc: "Danh sách các khách sạn bạn đã xem qua.",
+        txt_loading_data: "Đang tải dữ liệu...",
+        txt_loading_data: "Đang tải dữ liệu...",
+        msg_login_viewed: "Vui lòng đăng nhập để xem lịch sử.",
+        msg_no_viewed: "Bạn chưa xem khách sạn nào gần đây.",
+        msg_error_loading: "Lỗi khi tải dữ liệu."
     },
     en: {
         // --- HEADER ---
@@ -355,7 +363,7 @@ const UI_TRANSLATIONS = {
         placeholder_max: "Max Price",
 
         stat_props: "Properties",
-        stat_provs: "Provinces",
+        stat_provs: "City",
         stat_rating: "Avg Rating",
         why_title: "Why choose StayWise?",
         feat_ai: "AI-Powered Recommendations",
@@ -657,6 +665,14 @@ const UI_TRANSLATIONS = {
         modal_del_desc_confirm: "This action cannot be undone. To continue, please enter your password.",
         ph_del_pass: "Enter your password",
         btn_del_perm: "Delete Permanently",
+        nav_viewed: "Viewed Hotels",
+        sec_viewed_title: "Recently Viewed Hotels",
+        sec_viewed_desc: "List of hotels you have viewed recently.",
+        txt_loading_data: "Loading data...",
+        txt_loading_data: "Loading data...",
+        msg_login_viewed: "Please login to view history.",
+        msg_no_viewed: "No recently viewed hotels.",
+        msg_error_loading: "Error loading data."
     }
 };
 

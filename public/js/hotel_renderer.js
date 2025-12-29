@@ -197,7 +197,7 @@ export function createHorizontalHotelCard(hotel, uniqueId, rank, isFavorite = fa
 
     // 1. Xử lý Sao
     const starCount = Math.floor(hotel.star || 0);
-    const starHTML = '<i class="fas fa-star text-warning" style="font-size: 12px;"></i>'.repeat(starCount);
+    const starHTML = '<i class="fas fa-star"></i>'.repeat(starCount);
 
     // 2. Xử lý Loại hình (Chuẩn hóa -> Icon -> Dịch)
     const standardType = normalizeHotelType(hotel.type); 
@@ -205,7 +205,7 @@ export function createHorizontalHotelCard(hotel, uniqueId, rank, isFavorite = fa
     const typeTranslated = translateHotelType(standardType);
     
     // 3. URL chi tiết
-    const detailUrl = `information_page.html?id=${uniqueId}`;
+    const detailUrl = `../html/information_page.html?id=${uniqueId}`;
 
     // 4. Xử lý Điểm số
     let scoreVal = parseFloat(hotel.score);
@@ -253,8 +253,7 @@ export function createHorizontalHotelCard(hotel, uniqueId, rank, isFavorite = fa
             <div class="rank-badge" style="position: absolute; top: 0; left: 0; background: #ff4757; color: white; padding: 4px 10px; border-radius: 8px 0 8px 0; font-size: 12px; font-weight: bold; z-index: 2; box-shadow: 2px 2px 5px rgba(0,0,0,0.2);">
                 ${txt.rank} ${rank}
             </div>
-
-            <img src="${hotel.imageUrl || '../assets/images/default-hotel.jpg'}" alt="${hotel.hotelName}" class="main-hotel-image"
+<img src="${hotel.imageUrl || '../assets/images/default-hotel.jpg'}" alt="${hotel.hotelName}" class="main-hotel-image"
                  style="width: 100%; height: 100%; min-height: 150px; object-fit: cover; border-radius: 8px;" loading="lazy">
 
             <button class="favorite-btn ${activeClass}"
@@ -272,7 +271,7 @@ export function createHorizontalHotelCard(hotel, uniqueId, rank, isFavorite = fa
 
                 <div class="hotel-details" style="font-size: 13px; color: #666; margin-bottom: 8px;">
                     <p class="type-line" style="margin: 0 0 5px 0; display: flex; align-items: center; gap: 6px;">
-                        ${typeIcon} <span>${typeTranslated}</span> <span style="color: #ddd;">|</span> ${starHTML}
+                        ${typeIcon} <span>${typeTranslated}</span> <span style="color: #ddd;">|</span> <span class="hotel-rating">${starHTML}</span>
                     </p>
                     <p class="location-line" style="margin: 0 0 8px 0; font-size: 12px; color: #888; display: flex; align-items: center; gap: 4px;">
                         <i class="fas fa-map-marker-alt"></i> <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;">${hotel.searchLocation}</span>
@@ -292,7 +291,7 @@ export function createHorizontalHotelCard(hotel, uniqueId, rank, isFavorite = fa
                 <p class="price-condition" style="font-size: 11px; color: #888; margin: 0 0 6px 0;">${txt.nightInfo}</p>
 
                 <div class="final-price-wrapper">
-                    ${priceHtml}
+${priceHtml}
                 </div>
 
                 <p class="tax-fee-note" style="font-size: 10px; color: #999; margin: 6px 0 0 0;">

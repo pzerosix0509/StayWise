@@ -23,6 +23,7 @@
                 <aside class="profile-sidebar">
                     <ul class="sidebar-menu">
                         <li class="active"><a href="#info" id="nav-info" data-i18n="nav_info">Thông tin tài khoản</a></li>
+                        <li><a href="#viewed" id="nav-viewed" data-i18n="nav_viewed">Khách sạn đã xem</a></li>
                         <li><a href="#security" id="nav-security" data-i18n="nav_security">Mật khẩu & Bảo mật</a></li>
                         <li><a href="#settings" id="nav-notify" data-i18n="nav_notify">Cài đặt thông báo</a></li>
                     </ul>
@@ -82,6 +83,21 @@
                             </div>
 
                             <div id="recaptcha-container"></div>
+                        </div>
+                    </section>
+                    <section id="viewed-section" class="content-section" style="display: none;">
+                        <h2 class="section-title" data-i18n="sec_viewed_title">Khách sạn đã xem gần đây</h2>
+                        
+                        <div class="profile-card">
+                            <div class="section-header">
+                                <div>
+                                    <p class="sub-desc" data-i18n="sec_viewed_desc">Danh sách các khách sạn bạn đã xem qua.</p>
+                                </div>
+                            </div>
+
+                            <div id="viewed-hotels-list" class="viewed-grid">
+                                <p class="text-muted" style="padding: 20px;" data-i18n="txt_loading_data">Đang tải dữ liệu...</p>
+                            </div>
                         </div>
                     </section>
 

@@ -326,7 +326,7 @@ function isHotelTypeMatch(hotelTypeDB, filterTypeInput) {
 // On page load we also attempt to flush pending favorite syncs and load favorites from cloud
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("🚀 [Explore] Init");
-
+  updateItemsPerPage();
   // 1. Load data
   try {
       if (typeof loadMasterHotelsData === 'function') {
@@ -621,6 +621,27 @@ function setupFilterEvents() {
       renderPage();
     });
   }
+}
+function getGridColumns() {
+  const width = window.innerWidth;
+  
+  // Match with explore.css media queries exactly
+  if (width <= 480) {
+    return 1; // Mobile: 1 column
+  } else if (width >= 481 && width <= 768) {
+    return 2; // Tablet portrait: 2 columns
+  } else if (width >= 769 && width <= 1024) {
+    return 3; // Tablet landscape: 3 columns
+  } else if (width >= 1025 && width <= 1440) {
+    return 3; // Desktop: 3 columns
+  } else {
+    return 4; // Large desktop (1441px and up): 4 columns
+  }
+}
+function updateItemsPerPage() {
+  const columns = getGridColumns();
+  const rowsPerPage = 10;
+  itemsPerPage = columns * rowsPerPage;
 }
 
 function restoreFilters() {
@@ -964,5 +985,19 @@ export {
   postComment,
   loadCommentsForHotel
 };
-
+  let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    const oldItemsPerPage = itemsPerPage;
+    updateItemsPerPage();
+    
+    // Only re-render if items per page changed
+    if (oldItemsPerPage !== itemsPerPage) {
+      console.log(` Window resized: ${oldItemsPerPage}  ${itemsPerPage} items per page`);
+      currentPage = 1; // Reset to first page
+      renderPage();
+    }
+  }, 250); // Debounce 250ms
+});
 // ----------------------- END -----------------------
