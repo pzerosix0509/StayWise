@@ -672,7 +672,8 @@ const UI_TRANSLATIONS = {
         txt_loading_data: "Loading data...",
         msg_login_viewed: "Please login to view history.",
         msg_no_viewed: "No recently viewed hotels.",
-        msg_error_loading: "Error loading data."
+        msg_error_loading: "Error loading data.",
+        nav_nearby: "Nearby"
     }
 };
 

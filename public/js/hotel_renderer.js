@@ -108,7 +108,7 @@ function normalizeHotelType(rawType) {
 // ============================================================
 // 2. RENDER CARD DỌC (Trang Home/Explore)
 // ============================================================
-export async function createHotelCard(hotel, uniqueId, isFavorite = false) {
+export async function createHotelCard(hotel, uniqueId, isFavorite = false) { 
     const lang = getLang();
     const txt = RENDER_TEXT[lang];
 
@@ -137,12 +137,22 @@ export async function createHotelCard(hotel, uniqueId, isFavorite = false) {
     const heartColor = isFavorite ? '#ff4757' : 'rgba(255, 255, 255, 0.9)'; 
     const activeClass = isFavorite ? 'liked' : '';
 
+    // shadow styles
+    const baseShadow = "0 2px 6px rgba(0,0,0,0.10)";
+    const hoverShadow = "0 12px 30px rgba(0,0,0,0.15)";
+
     return `
-    <div class="hotel-card" data-hotel-id="${uniqueId}" data-url="${detailUrl}" style="cursor: pointer; display: flex; flex-direction: column; height: 100%;">
-        
-        <div class="image-wrapper" style="position: relative; height: 180px; flex-shrink: 0;">
+    <div class="hotel-card" data-hotel-id="${uniqueId}" data-url="${detailUrl}" 
+         style="cursor: pointer; display: flex; flex-direction: column; height: 100%;
+                border-radius: 12px; overflow: hidden; background: #fff;
+                transition: transform 220ms cubic-bezier(.2,.8,.2,1), box-shadow 220ms ease;
+                box-shadow: ${baseShadow}; border: 1px solid rgba(0,0,0,0.04);"
+         onmouseenter="this.style.boxShadow='${hoverShadow}'; this.style.transform='translateY(-6px)';"
+         onmouseleave="this.style.boxShadow='${baseShadow}'; this.style.transform='translateY(0)';">
+
+        <div class="image-wrapper" style="position: relative; height: 180px; flex-shrink: 0; overflow: hidden;">
             <img src="${hotel.imageUrl || '../assets/images/default-hotel.jpg'}" alt="${hotel.hotelName}" loading="lazy" 
-                 style="width: 100%; height: 100%; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                 style="width: 100%; height: 100%; object-fit: cover; display: block;">
             
             <button class="favorite-btn ${activeClass}" 
                     style="position: absolute; top: 10px; right: 10px; z-index: 10; 
@@ -187,6 +197,7 @@ export async function createHotelCard(hotel, uniqueId, isFavorite = false) {
     </div>
     `;
 }
+
 
 // ============================================================
 // 3. RENDER CARD NGANG (Trang Top Reviews)

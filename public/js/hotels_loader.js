@@ -189,3 +189,95 @@ export async function translateText(text, targetLang = 'en') {
         return text; 
     }
 }
+
+export async function loadHotelsWithCoordinates(fileName = 'hotels_with_coordinates_test.csv') {
+    try {
+        const filePath = `../data/${fileName}`;
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const csvText = await response.text();
+
+        const lines = csvText
+            .split(/\r?\n/)
+            .map(line => line.trim())
+            .filter(line => line.length > 0);
+
+        if (lines.length === 0) return [];
+
+        const header = parseCSV(lines[0]);
+        const hotels = [];
+
+        // Find column indices dynamically
+        const cityIndex = header.findIndex(h => h.toLowerCase() === 'city' || h.toLowerCase() === 'searchlocation');
+        const hotelNameIndex = header.findIndex(h => h.toLowerCase() === 'hotelname');
+        const locationIndex = header.findIndex(h => h.toLowerCase() === 'location');
+        const typeIndex = header.findIndex(h => h.toLowerCase() === 'type');
+        const starIndex = header.findIndex(h => h.toLowerCase() === 'star');
+        const minPriceIndex = header.findIndex(h => h.toLowerCase() === 'minprice');
+        const maxPriceIndex = header.findIndex(h => h.toLowerCase() === 'maxprice');
+        const scoreIndex = header.findIndex(h => h.toLowerCase() === 'score');
+        const numberRatingIndex = header.findIndex(h => h.toLowerCase() === 'numberrating');
+        const haveCommentsIndex = header.findIndex(h => h.toLowerCase() === 'havecomments');
+        const descriptionIndex = header.findIndex(h => h.toLowerCase() === 'description');
+        const mainFacilitiesIndex = header.findIndex(h => h.toLowerCase() === 'mainfacilities');
+        const servicesFacilitiesIndex = header.findIndex(h => h.toLowerCase() === 'servicesfacilities');
+        const publicFacilitiesIndex = header.findIndex(h => h.toLowerCase() === 'publicfacilities');
+        const generalFacilitiesIndex = header.findIndex(h => h.toLowerCase() === 'generalfacilities');
+        const roomFacilitiesIndex = header.findIndex(h => h.toLowerCase() === 'roomfacilities');
+        const attractionsIndex = header.findIndex(h => h.toLowerCase() === 'attractions');
+        const imagesIndex = header.findIndex(h => h.toLowerCase().includes('image'));
+        const latIndex = header.findIndex(h => h.toLowerCase() === 'lat');
+        const lonIndex = header.findIndex(h => h.toLowerCase() === 'lon');
+        const addressIndex = header.findIndex(h => h.toLowerCase() === 'address');
+
+        for (let i = 1; i < lines.length; i++) {
+            const cols = parseCSV(lines[i]);
+            if (!cols || cols.length < 5) continue;
+
+            const searchLocation = cityIndex >= 0 ? cols[cityIndex] : "";
+            const hotelName = hotelNameIndex >= 0 ? cols[hotelNameIndex] : "";
+            const location = locationIndex >= 0 ? cols[locationIndex] : "";
+            const type = typeIndex >= 0 ? cols[typeIndex] : "";
+            const star = starIndex >= 0 ? parseFloat(cols[starIndex]) || 0 : 0;
+            const minPrice = minPriceIndex >= 0 ? parseFloat(cols[minPriceIndex]) || 0 : 0;
+            const maxPrice = maxPriceIndex >= 0 ? parseFloat(cols[maxPriceIndex]) || 0 : 0;
+            const price = minPrice;
+            const score = scoreIndex >= 0 ? parseFloat(cols[scoreIndex]) || 0 : 0;
+            const numberRating = numberRatingIndex >= 0 ? parseInt(cols[numberRatingIndex]) || 0 : 0;
+            const haveComments = haveCommentsIndex >= 0 ? (cols[haveCommentsIndex]?.toLowerCase() === 'true') : false;
+            const description = descriptionIndex >= 0 ? (cols[descriptionIndex] || "").replace(/\n/g, "<br>") : "";
+
+            const mainFacilities = mainFacilitiesIndex >= 0 ? parseJsonArray(cols[mainFacilitiesIndex]) : [];
+            const servicesFacilities = servicesFacilitiesIndex >= 0 ? parseJsonArray(cols[servicesFacilitiesIndex]) : [];
+            const publicFacilities = publicFacilitiesIndex >= 0 ? parseJsonArray(cols[publicFacilitiesIndex]) : [];
+            const generalFacilities = generalFacilitiesIndex >= 0 ? parseJsonArray(cols[generalFacilitiesIndex]) : [];
+            const roomFacilities = roomFacilitiesIndex >= 0 ? parseJsonArray(cols[roomFacilitiesIndex]) : [];
+            const attractions = attractionsIndex >= 0 ? parseJsonArray(cols[attractionsIndex]) : [];
+            const imagesArr = imagesIndex >= 0 ? parseJsonArray(cols[imagesIndex]) : [];
+            const imageUrl = imagesArr[0] || "";
+
+            // Get coordinates from CSV
+            const lat = latIndex >= 0 && cols[latIndex] ? parseFloat(cols[latIndex]) : null;
+            const lon = lonIndex >= 0 && cols[lonIndex] ? parseFloat(cols[lonIndex]) : null;
+            const address = addressIndex >= 0 && cols[addressIndex] ? cols[addressIndex] : location;
+
+            hotels.push({
+                id: i - 1,
+                searchLocation, hotelName, location, address, type, star,
+                price, minPrice, maxPrice,
+                score, numberRating, haveComments, description,
+                mainFacilities, servicesFacilities, publicFacilities,
+                generalFacilities, roomFacilities, attractions,
+                images: imagesArr, imageUrl,
+                lat, lon
+            });
+        }
+
+        console.log(`✅ Loaded ${hotels.length} hotels with coordinates`);
+        return hotels;
+
+    } catch (error) {
+        console.error(`❌ Error loading hotels with coordinates:`, error);
+        return [];
+    }
+}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayWise - Khám phá khách sạn lân cận</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/nearby_search.css">
+    <link rel="stylesheet" href="../css/hotel_card.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+          crossorigin="" />
+</head>
+
+<body>
+
+    <div id="shared-header"></div>
+
+    <main>
+        <!-- Hero Section with Map -->
+        <section class="nearby-hero">
+            <div class="hero-content">
+                <div class="hero-left">
+                    <h1 class="hero-title">KHÁM PHÁ KHÁCH SẠN LÂN CẬN</h1>
+                    <p class="hero-subtitle">Dễ dàng tìm thấy chỗ ở hoàn hảo chỉ cách các điểm du lịch, nhà hàng hoặc khu vực công tác quan trọng một bán kính nhất định. Hãy nhập địa điểm bạn quan tâm!</p>
+                    
+                    <!-- Search Bar -->
+                    <div class="search-bar">
+                        <div class="input-group">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" id="location-input" placeholder="Nhập địa điểm (VD: Chợ Bến Thành, Hồ Hoàn Kiếm...)" />
+                        </div>
+                        
+                        <div class="input-group">
+                            <i class="fas fa-city"></i>
+                            <select id="city-select">
+                                <option value="">Chọn thành phố</option>
+                                <option value="Hồ Chí Minh">Hồ Chí Minh</option>
+                                <option value="Hà Nội">Hà Nội</option>
+                                <option value="Đà Nẵng">Đà Nẵng</option>
+                                <option value="Nha Trang">Nha Trang</option>
+                                <option value="Hội An">Hội An</option>
+                                <option value="Huế">Huế</option>
+                                <option value="Đà Lạt">Đà Lạt</option>
+                                <option value="Phú Quốc">Phú Quốc</option>
+                                <option value="Vũng Tàu">Vũng Tàu</option>
+                                <option value="Cần Thơ">Cần Thơ</option>
+                                <option value="Hạ Long">Hạ Long</option>
+                                <option value="Phan Thiết">Phan Thiết</option>
+                                <option value="Côn Đảo">Côn Đảo</option>
+                                <option value="Mộc Châu">Mộc Châu</option>
+                                <option value="Phan Rang">Phan Rang</option>
+                                <option value="Quảng Ninh">Quảng Ninh</option>
+                                <option value="Quy Nhơn">Quy Nhơn</option>
+                                <option value="Sa Pa">Sa Pa</option>
+                                <option value="Tam Đảo">Tam Đảo</option>
+                                <option value="Thanh Hóa">Thanh Hóa</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
+                            <i class="fas fa-route"></i>
+                            <input type="number" id="radius-input" placeholder="1000" min="100" max="50000" value="1000" />
+                            <span class="unit">m</span>
+                        </div>
+                        
+                        <div class="input-group">
+                            <i class="fas fa-dollar-sign"></i>
+                            <input type="number" id="max-price-input" placeholder="1000000" min="0" step="100000" />
+                            <span class="unit">VND</span>
+                        </div>
+                        
+                        <button id="search-btn" class="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="hero-right">
+                    <div id="map-container"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section">
+            <div class="container">
+                <div id="results-header" class="results-header" style="display: none;">
+                    <h2 id="results-title">Tìm thấy <span id="results-count">0</span> chỗ ở gần <span id="search-location-name"></span></h2>
+                </div>
+                
+                <div id="loading-spinner" class="loading-spinner" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Đang tìm kiếm...
+                </div>
+                
+                <div id="hotel-list" class="hotel-list"></div>
+                
+                <div id="pagination" class="pagination"></div>
+            </div>
+        </section>
+    </main>
+
+    <div id="shared-footer"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
+    <script src="../js/include-layout.js"></script>
+    <script type="module" src="../js/auth.js"></script>
+    <script type="module" src="../js/nearby_search.js"></script>
+
+</body>
+</html>

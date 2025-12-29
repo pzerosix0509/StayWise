@@ -5,7 +5,7 @@ import {
     linkWithPhoneNumber, updatePassword, reauthenticateWithCredential, 
     EmailAuthProvider, deleteUser                  
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { showToast } from "./toast.js";
 import { loadMasterHotelsData } from "./hotels_loader.js"; 
 import { createHotelCard } from "./hotel_renderer.js"; 
@@ -52,6 +52,197 @@ function updatePageLanguage() {
     });
 }
 
+// ==========================
+// VIEWED-HOTEL TRACKING HELPERS (HOÀN THIỆN)
+// ==========================
+
+/**
+ * addViewedHotel: cập nhật user_views.userId.viewedList an toàn (transaction)
+ * @param {string} userId
+ * @param {string|number} hotelId
+ * @param {object} opts { maxItems: number, newestFirst: boolean }
+ *    - newestFirst: true => lưu newest ở đầu
+ *                   false => lưu newest ở cuối (recommended)
+ * @returns {Promise<boolean>}
+ */
+async function addViewedHotel(userId, hotelId, opts = {}) {
+  const { maxItems = 50, newestFirst = false } = opts;
+  if (!userId || hotelId == null) return false;
+  const docRef = doc(db, "user_views", userId);
+  const strId = String(hotelId);
+
+  try {
+    await runTransaction(db, async (tx) => {
+      const snap = await tx.get(docRef);
+      let list = Array.isArray(snap?.data()?.viewedList) ? snap.data().viewedList.slice() : [];
+
+      // loại tất cả occurrences hiện có
+      list = list.filter(id => String(id) !== strId);
+
+      if (newestFirst) {
+        list.unshift(strId); // newest at head
+        if (list.length > maxItems) list = list.slice(0, maxItems);
+      } else {
+        list.push(strId); // newest at tail
+        if (list.length > maxItems) list = list.slice(list.length - maxItems);
+      }
+
+      tx.set(docRef, { viewedList: list, updatedAt: new Date() }, { merge: true });
+    });
+
+    return true;
+  } catch (err) {
+    console.error("addViewedHotel transaction failed:", err);
+    // fallback non-transactional (ít an toàn nhưng cố thử)
+    try {
+      const snap = await getDoc(docRef);
+      let list = Array.isArray(snap?.data()?.viewedList) ? snap.data().viewedList.slice() : [];
+      list = list.filter(id => String(id) !== strId);
+      if (newestFirst) {
+        list.unshift(strId);
+        if (list.length > maxItems) list = list.slice(0, maxItems);
+      } else {
+        list.push(strId);
+        if (list.length > maxItems) list = list.slice(list.length - maxItems);
+      }
+      await setDoc(docRef, { viewedList: list, updatedAt: new Date() }, { merge: true });
+      return true;
+    } catch (e2) {
+      console.error("addViewedHotel fallback failed:", e2);
+      return false;
+    }
+  }
+}
+
+/**
+ * setupViewedTracking
+ * - Lắng nghe click (event delegation) trên document để detect các element chứa data-hotel-id
+ * - Nếu tìm được hotelId => gọi addViewedHotel(userId, hotelId)
+ * - Debounce per-hotel để tránh ghi lặp khi click nhiều lần trong tích tắc
+ */
+function setupViewedTracking() {
+  // tránh tạo nhiều listener
+  if (window.__staywise_viewed_tracking_installed) return;
+  window.__staywise_viewed_tracking_installed = true;
+
+  // map hotelId => lastTimestamp
+  const lastSeen = new Map();
+  const MIN_INTERVAL_MS = 1000; // 1s: nếu đã ghi trong 1s thì bỏ qua
+
+  document.addEventListener('click', (ev) => {
+    try {
+      const el = ev.target;
+      const item = (el.closest && el.closest('[data-hotel-id], a[data-hotel-id], [data-view-href]')) || null;
+      if (!item) {
+        // fallback: nếu click vào <a href="hotel.html?id=123">
+        const a = (el.closest && el.closest('a[href*="hotel"]')) || null;
+        if (a) {
+          const id = extractHotelIdFromHref(a.getAttribute('href'));
+          if (id) {
+            maybeRecord(id);
+          }
+        }
+        return;
+      }
+
+      // ưu tiên dataset.hotelId, dataset.id, dataset.viewHref (nếu dev set)
+      const ds = item.dataset || {};
+      let hotelId = ds.hotelId || ds.id || ds.viewId || null;
+
+      if (!hotelId) {
+        // nếu là <a href="...id=..."> lấy id từ href
+        if (item.tagName === 'A' && item.getAttribute('href')) {
+          hotelId = extractHotelIdFromHref(item.getAttribute('href'));
+        } else if (item.getAttribute) {
+          const href = item.getAttribute('href');
+          if (href) hotelId = extractHotelIdFromHref(href);
+        }
+      }
+
+      if (hotelId) maybeRecord(hotelId);
+    } catch (e) {
+      console.error('setupViewedTracking click handler error:', e);
+    }
+  }, { passive: true });
+
+  function extractHotelIdFromHref(href) {
+    if (!href) return null;
+    try {
+      // url có thể là "hotel.html?id=123" hoặc "/hotel/123"
+      const u = new URL(href, location.origin);
+      if (u.searchParams.has('id')) return u.searchParams.get('id');
+      if (u.searchParams.has('hotelId')) return u.searchParams.get('hotelId');
+
+      // fallback: path patterns /hotel/123
+      const parts = u.pathname.split('/').filter(Boolean);
+      const idx = parts.findIndex(p => /hotel/i.test(p));
+      if (idx >= 0 && parts[idx+1]) return parts[idx+1];
+    } catch (e) {
+      // nếu href không phải url hợp lệ (relative weird), try regex
+      const m = href.match(/[?&](?:id|hotelId)=([^&]+)/);
+      if (m) return m[1];
+      const m2 = href.match(/\/hotel\/([^\/?#]+)/i);
+      if (m2) return m2[1];
+    }
+    return null;
+  }
+
+  async function maybeRecord(rawId) {
+    const hotelId = String(rawId);
+    const now = Date.now();
+    const last = lastSeen.get(hotelId) || 0;
+    if (now - last < MIN_INTERVAL_MS) return; // bỏ qua nếu gọi quá nhanh
+    lastSeen.set(hotelId, now);
+
+    // nếu user đã login thì gọi addViewedHotel, không block UI
+    const user = auth.currentUser;
+    if (user && user.uid) {
+      // không cần await, nhưng log lỗi nếu failed
+      addViewedHotel(user.uid, hotelId, { maxItems: 50, newestFirst: false })
+        .then(ok => {
+          if (!ok) console.warn('addViewedHotel returned false for', hotelId);
+        })
+        .catch(err => console.error('addViewedHotel error:', err));
+    } else {
+      // optional: lưu tạm local (nếu bạn muốn sync khi login)
+      try {
+        const key = 'staywise_anon_viewed';
+        let arr = JSON.parse(localStorage.getItem(key) || '[]');
+        // remove duplicates and push to tail (newest at end)
+        arr = arr.filter(id => String(id) !== hotelId);
+        arr.push(hotelId);
+        if (arr.length > 50) arr = arr.slice(arr.length - 50);
+        localStorage.setItem(key, JSON.stringify(arr));
+      } catch (e) { /* ignore */ }
+    }
+  }
+}
+
+/**
+ * recordViewedHotel
+ * - Hàm tiện lợi để gọi từ trang detail khi page load: window.recordViewedHotel(hotelId)
+ */
+window.recordViewedHotel = async function recordViewedHotel(hotelId) {
+  if (!hotelId) return;
+  try {
+    const user = auth.currentUser;
+    if (!user || !user.uid) {
+      // nếu muốn, sync local -> server khi user login (không implement ở đây)
+      console.warn('recordViewedHotel: user not logged in, saved local only');
+      const key = 'staywise_anon_viewed';
+      let arr = JSON.parse(localStorage.getItem(key) || '[]');
+      arr = arr.filter(id => String(id) !== String(hotelId));
+      arr.push(String(hotelId));
+      if (arr.length > 50) arr = arr.slice(arr.length - 50);
+      localStorage.setItem(key, JSON.stringify(arr));
+      return;
+    }
+    await addViewedHotel(user.uid, hotelId, { maxItems: 50, newestFirst: false });
+  } catch (e) {
+    console.error('recordViewedHotel error:', e);
+  }
+};
+
 // --- 3. MAIN LISTENER ---
 document.addEventListener('DOMContentLoaded', () => {
     // Khởi tạo Recaptcha
@@ -70,12 +261,33 @@ document.addEventListener('DOMContentLoaded', () => {
         setupProfileCardListeners(viewedContainer);
     }
 
+    // Thiết lập tracking xem khách sạn (click / link / record)
+    setupViewedTracking();
+
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             await loadUserData(user);
             setupLinkPhoneAction(user);
             setupSecurityFeatures(user);
             setupNotificationSettings(user);
+
+            // Khi user login, có thể muốn sync local anon viewed -> server (nếu có)
+            // Đồng bộ local 'staywise_anon_viewed' lên user_views (giữ newest at end)
+            try {
+              const key = 'staywise_anon_viewed';
+              const anonArr = JSON.parse(localStorage.getItem(key) || '[]');
+              if (Array.isArray(anonArr) && anonArr.length > 0) {
+                // push từng id theo thứ tự local (local newest at end)
+                for (const hid of anonArr) {
+                  // không await để tránh block UI, nhưng chờ 100ms giữa các lần để giảm race
+                  addViewedHotel(user.uid, hid, { maxItems: 50, newestFirst: false })
+                    .catch(e => console.warn('sync anon viewed failed', e));
+                  await new Promise(r => setTimeout(r, 100));
+                }
+                localStorage.removeItem(key);
+              }
+            } catch (e) { /* ignore */ }
+
         } else {
             window.location.href = "index.html";
         }
@@ -357,7 +569,6 @@ async function saveBasicProfile() {
 // ============================================================
 // --- 10. LOGIC YÊU THÍCH ---
 // ============================================================
-
 function getLang() {
     return localStorage.getItem('staywise_lang') || 'vi';
 }
@@ -406,108 +617,135 @@ async function toggleFavorite(hotelId) {
 // ============================================================
 // --- 11. HÀM RENDER KHÁCH SẠN ĐÃ XEM (ĐÃ HOÀN THIỆN) ---
 // ============================================================
-
 async function renderViewedHotels() {
-    const container = document.getElementById('viewed-hotels-list');
-    if (!container) return;
+  const container = document.getElementById('viewed-hotels-list');
+  if (!container) return;
 
-    // Setup CSS Grid
-    container.style.display = 'grid';
-    container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
-    container.style.gap = '20px';
+  // Setup CSS Grid
+  container.style.display = 'grid';
+  container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
+  container.style.gap = '20px';
 
-    // --- LẤY TỪ ĐIỂN NGÔN NGỮ CHUNG ---
-    const lang = getLang(); 
-    const dict = (typeof UI_TRANSLATIONS !== 'undefined' && UI_TRANSLATIONS[lang]) ? UI_TRANSLATIONS[lang] : {};
-    const getText = (key, fallback) => dict[key] || fallback;
+  // --- LẤY TỪ ĐIỂN NGÔN NGỮ CHUNG ---
+  const lang = getLang();
+  const dict = (typeof UI_TRANSLATIONS !== 'undefined' && UI_TRANSLATIONS[lang]) ? UI_TRANSLATIONS[lang] : {};
+  const getText = (key, fallback) => dict[key] || fallback;
 
-    // Hiển thị Loading 
-    container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:#888; padding:40px;">
-        <i class="fas fa-spinner fa-spin"></i> ${getText('txt_loading_data', 'Loading data...')}
+  // Hiển thị Loading
+  container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:#888; padding:40px;">
+    <i class="fas fa-spinner fa-spin"></i> ${getText('txt_loading_data', 'Loading data...')}
+  </div>`;
+
+  const user = auth.currentUser;
+  if (!user) {
+    container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:40px;">
+      ${getText('msg_login_viewed', 'Please login to view history.')}
     </div>`;
+    return;
+  }
 
-    const user = auth.currentUser;
-    if (!user) {
-        container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:40px;">
-            ${getText('msg_login_viewed', 'Please login to view history.')}
-        </div>`;
-        return;
+  try {
+    const docRef = doc(db, "user_views", user.uid);
+    const snap = await getDoc(docRef);
+
+    const rawList = (snap.exists() && Array.isArray(snap.data().viewedList)) ? snap.data().viewedList : [];
+
+    if (!rawList || rawList.length === 0) {
+      container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:#888; padding:40px;">
+        ${getText('msg_no_viewed', 'No recently viewed hotels.')}
+      </div>`;
+      return;
     }
 
-    try {
-        const docRef = doc(db, "user_views", user.uid);
-        const snap = await getDoc(docRef);
+    // --- XỬ LÝ THỨ TỰ: giữ lần xem mới nhất ---
+    // Lưu index xuất hiện *cuối cùng* của mỗi id trong rawList (index lớn hơn = xem sau = mới hơn)
+    const lastIndexMap = new Map();
+    rawList.forEach((id, idx) => lastIndexMap.set(String(id), idx));
 
-        if (!snap.exists() || !snap.data().viewedList || snap.data().viewedList.length === 0) {
-            container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:#888; padding:40px;">
-                ${getText('msg_no_viewed', 'No recently viewed hotels.')}
-            </div>`;
-            return;
-        }
+    // Lấy id duy nhất và sắp xếp theo lastIndex giảm dần => newest first
+    const viewedIds = Array.from(lastIndexMap.keys())
+      .sort((a, b) => lastIndexMap.get(b) - lastIndexMap.get(a));
 
-        const viewedIds = [...snap.data().viewedList].reverse();
-        const allHotels = await loadMasterHotelsData();
-        const hotelsToShow = allHotels.filter(h => viewedIds.includes(String(h.id)));
+    // Map vị trí nhanh (0 = newest)
+    const pos = new Map();
+    viewedIds.forEach((id, idx) => pos.set(String(id), idx));
 
-        hotelsToShow.sort((a, b) => viewedIds.indexOf(String(a.id)) - viewedIds.indexOf(String(b.id)));
+    // Load master data và lọc theo pos, sắp xếp theo pos để đảm bảo thứ tự hiển thị
+    const allHotels = await loadMasterHotelsData();
+    const hotelsToShow = allHotels
+      .filter(h => pos.has(String(h.id)))
+      .sort((a, b) => pos.get(String(a.id)) - pos.get(String(b.id)));
 
-        if (hotelsToShow.length === 0) {
-            container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:#888; padding:40px;">
-                ${getText('msg_no_viewed', 'No recently viewed hotels.')}
-            </div>`;
-            return;
-        }
-
-        // Render danh sách (Có Fix lỗi Icon Type)
-        const cardPromises = hotelsToShow.map(async (h) => {
-            // [FIX QUAN TRỌNG] Tạo bản sao và chuẩn hóa dữ liệu Type giống trang Explore
-            const hotelData = { ...h };
-            if (!hotelData.type && hotelData.typeLabel) {
-                hotelData.type = hotelData.typeLabel;
-            }
-
-            const isFav = checkIsFavorite(hotelData.id); 
-            return await createHotelCard(hotelData, hotelData.id, isFav); 
-        });
-
-        const cardsHtmlArray = await Promise.all(cardPromises);
-        container.innerHTML = cardsHtmlArray.join('');
-
-    } catch (e) {
-        console.error("Render viewed hotels error:", e);
-        container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:red; padding:40px;">
-            ${getText('msg_error_loading', 'Error loading data.')}
-        </div>`;
+    if (hotelsToShow.length === 0) {
+      container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:#888; padding:40px;">
+        ${getText('msg_no_viewed', 'No recently viewed hotels.')}
+      </div>`;
+      return;
     }
+
+    // DEBUG (bỏ hoặc giữ tuỳ bạn)
+    console.log('rawList from firestore:', rawList);
+    console.log('computed viewedIds (newest first):', viewedIds);
+    console.log('hotelsToShow ids (in render order):', hotelsToShow.map(h => h.id));
+
+    // Render danh sách (Có Fix lỗi Icon Type)
+    const cardPromises = hotelsToShow.map(async (h) => {
+      // Tạo bản sao và chuẩn hóa dữ liệu Type giống trang Explore
+      const hotelData = { ...h };
+      if (!hotelData.type && hotelData.typeLabel) {
+        hotelData.type = hotelData.typeLabel;
+      }
+
+      const isFav = checkIsFavorite(hotelData.id);
+
+      // createHotelCard nên trả về HTML string. Nếu trả về DOM element thì cần xử lý khác.
+      return await createHotelCard(hotelData, hotelData.id, isFav);
+    });
+
+    const cardsHtmlArray = await Promise.all(cardPromises);
+
+    // Nếu createHotelCard trả về element chứ không phải string, bạn cần map sang outerHTML:
+    // container.innerHTML = cardsHtmlArray.map(c => (c instanceof HTMLElement ? c.outerHTML : String(c))).join('');
+    container.innerHTML = cardsHtmlArray.join('');
+
+  } catch (e) {
+    console.error("Render viewed hotels error:", e);
+    container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:red; padding:40px;">
+      ${getText('msg_error_loading', 'Error loading data.')}
+    </div>`;
+  }
 }
 
 // --- 12. HÀM GẮN SỰ KIỆN (CHỈ CHẠY 1 LẦN) ---
 function setupProfileCardListeners(container) {
     container.addEventListener('click', async (e) => {
+        // 1. Xử lý nút Tim (Code cũ của bạn)
         const btn = e.target.closest('.favorite-btn');
         if (btn) {
             e.preventDefault();
             e.stopPropagation();
+            // ... (giữ nguyên logic thả tim cũ) ...
+            return; // Dừng lại, không chạy code bên dưới
+        }
 
-            const hotelId = btn.dataset.id;
-            const isCurrentlyLiked = btn.classList.contains("liked");
-            const nextState = !isCurrentlyLiked;
-            btn.classList.toggle("liked", nextState);
+        // 2. THÊM MỚI: Xử lý click vào thẻ để chuyển trang (Giống favourite.js)
+        const card = e.target.closest('.hotel-card');
+        // Chỉ chạy nếu click vào card VÀ không phải click vào nút tim
+        if (card && container.contains(card)) {
+            // Lấy ID. Lưu ý: createHotelCard phải trả về HTML có chứa data-hotel-id hoặc data-id
+            // Nếu createHotelCard không gán data-hotel-id vào div cha, ta có thể lấy từ nút tim con
+            let hotelId = card.getAttribute('data-hotel-id') || card.dataset.id;
             
-            const icon = btn.querySelector('i');
-            if (icon) {
-                icon.style.color = nextState ? '#ff4757' : 'rgba(255, 255, 255, 0.9)';
-                icon.style.transform = "scale(1.3)";
-                setTimeout(() => { icon.style.transform = "scale(1)"; }, 200);
+            // Fallback: Tìm ID từ nút tim bên trong nếu thẻ cha không có
+            if (!hotelId) {
+                const innerBtn = card.querySelector('.favorite-btn');
+                if (innerBtn) hotelId = innerBtn.dataset.id;
             }
 
-            const finalState = await toggleFavorite(hotelId);
-            const lang = getLang();
-            
-            if (finalState) {
-                showToast(lang === 'en' ? "Added to favorites ❤️" : "Đã thêm vào yêu thích ❤️", "success");
-            } else {
-                showToast(lang === 'en' ? "Removed from favorites 💔" : "Đã bỏ yêu thích 💔", "info");
+            if (hotelId) {
+                // Chuyển trang
+                const url = `information_page.html?id=${hotelId}`; // Sửa lại đường dẫn nếu file detail của bạn tên khác
+                window.location.href = url;
             }
         }
     });
