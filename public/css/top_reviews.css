@@ -1,0 +1,182 @@
+/* top_reviews.css */
+
+/* Banner lớn */
+.top-review-hero {
+    height: 711px; /* Chiều cao banner */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--light-color); /* Màu chữ trắng */
+    padding: 20px;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.5s ease-in-out; /* Hiệu ứng chuyển ảnh */
+    margin-top: 75px; /* Ngay dưới header */
+    position: relative;
+    
+    /* Overlay mặc định (Đen mờ) */
+    isolation: isolate; 
+}
+
+/* ========================================= RESPONSIVE ========================================= */
+
+/* Mobile devices (up to 480px) */
+@media only screen and (max-width: 480px) {
+    .top-review-hero {
+        height: 400px;
+        margin-top: 55px;
+    }
+
+    .top-review-hero h1 {
+        font-size: 32px;
+    }
+
+    .top-review-hero p {
+        font-size: 14px;
+    }
+
+    .hero-pre-title {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .hero-main-title {
+        font-size: 18px;
+        line-height: 1.6;
+        margin-top: 30px;
+    }
+}
+
+/* Tablet devices (481px to 768px) */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+    .top-review-hero {
+        height: 550px;
+    }
+
+    .top-review-hero h1 {
+        font-size: 40px;
+    }
+}
+
+/* Overlay đen mờ */
+.top-review-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45); /* Độ mờ đen */
+    z-index: 1;
+}
+
+.top-review-hero .hero-content {
+    z-index: 2; /* Đặt nội dung lên trên overlay */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 900px;
+}
+
+/* Tiêu đề và Subtitle */
+.top-review-hero h1 {
+    font-size: 50px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    font-family: 'Open Sans', sans-serif; /* Sử dụng font từ home/style.css */
+}
+
+.hero-pre-title {
+    font-size: 40px; 
+    font-weight: 600;
+    opacity: 1; 
+    margin-bottom: -30px;
+    font-family: 'Open Sans', sans-serif;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.hero-main-title {
+    font-size: 25px; 
+    font-weight: 300;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    font-family: 'Open Sans', sans-serif; 
+}
+
+.logo-text-styled {
+    color: var(--primary-color); /* Màu xanh */
+    font-weight: 900;
+    text-shadow: none;
+}
+
+/* Thanh chọn thành phố */
+.city-selector-bar {
+    margin-top: 30px;
+    background: var(--light-color);
+    padding: 5px;
+    border-radius: 40px;
+    max-width: 450px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+.city-selector-bar .input-group {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding: 8px 12px;
+    gap: 12px;
+}
+
+.city-select-input {
+    flex: 1;
+    border: none;
+    padding: 6px 0;
+    font-size: 16px;
+    outline: none;
+    color: var(--text-color);
+    background: transparent;
+    cursor: pointer;
+}
+
+/* Icon (sử dụng lại style.css .icon-round) */
+.city-selector-bar .icon-round {
+    background: none;
+}
+
+/* Phần hiển thị danh sách */
+.top-hotels-list-section {
+    padding: 40px 0;
+    background-color: var(--secondary-color);
+}
+
+#list-title {
+    font-size: 28px;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.list-explanation {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    font-size: 15px;
+    color: var(--grey-color); /* Màu xám nhẹ */
+    max-width: 800px;
+    margin: -20px auto 40px auto; /* Đẩy lên gần tiêu đề, cách danh sách 40px */
+    line-height: 1.4;
+}
+
+.hotel-list-grid {
+    display: grid;
+    gap: 0px;
+}

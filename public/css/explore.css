@@ -1,0 +1,576 @@
+/* =========================================
+   1. GLOBAL & HERO SECTION
+   ========================================= */
+* {
+    font-family: "Open Sans", sans-serif;
+    box-sizing: border-box;
+}
+
+/* Vùng Hero màu xanh */
+.explore-hero {
+    width: 100%;
+    height: 170px;
+    background-color: #31B3D9;
+    margin-top: 70px; /* Tránh header che */
+    display: flex;
+    align-items: center;
+}
+
+.explore-hero .container {
+    width: 100%;
+    max-width: 1400px; /* Giới hạn chiều rộng chuẩn */
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: left;
+}
+
+.hero-title {
+    font-weight: 700;
+    font-size: 44px;
+    color: #ffffff;
+    margin: 0;
+}
+
+.hero-subtitle {
+    font-size: 16px;
+    color: #ffffff;
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+/* =========================================
+   2. MAIN LAYOUT (WRAPPER)
+   ========================================= */
+.explore-wrapper {
+    display: flex;
+    align-items: flex-start; /* Quan trọng để Sticky hoạt động */
+    justify-content: center;
+    max-width: 1440px;
+    margin: 40px auto 60px auto;
+    padding: 0 20px;
+    gap: 40px; /* Khoảng cách giữa Bộ lọc và Danh sách */
+}
+
+/* =========================================
+   3. SIDEBAR FILTER (BỘ LỌC)
+   ========================================= */
+.filter-box {
+    width: 320px; /* Chiều rộng cố định cho sidebar */
+    flex-shrink: 0;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    
+    /* Sticky: Trượt theo khi cuộn */
+    position: -webkit-sticky;
+    position: sticky;
+    top: 100px; /* Cách đỉnh màn hình 100px */
+    
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eee;
+    
+    /* Scroll nội bộ nếu màn hình thấp */
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+}
+
+/* Custom Scrollbar cho Filter */
+.filter-box::-webkit-scrollbar { width: 6px; }
+.filter-box::-webkit-scrollbar-track { background: #f1f1f1; }
+.filter-box::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.filter-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.reset-btn {
+    background: none;
+    border: none;
+    color: #31B3D9;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Các thành phần Form trong Filter */
+label {
+    margin-top: 15px;
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.input-text {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-text:focus {
+    border-color: #31B3D9;
+}
+
+.price-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.checkbox-group {
+    margin-top: 5px;
+    padding: 5px 0;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #f0f0f0;
+    border-radius: 6px;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+}
+
+.checkbox-row:hover {
+    background-color: #f9f9f9;
+}
+
+.checkbox-row input[type="checkbox"] {
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+    accent-color: #31B3D9;
+    cursor: pointer;
+}
+
+.checkbox-row label {
+    margin: 0;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+    color: #555;
+    flex: 1;
+}
+
+.apply-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: #31B3D9;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.apply-btn:hover {
+    background: #258ea8;
+}
+
+.search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.search-wrapper i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.search-wrapper .search-input {
+    padding-left: 35px;
+}
+
+/* =========================================
+   4. CONTENT COLUMN (DANH SÁCH & SORT)
+   ========================================= */
+.content-column {
+    flex-grow: 1; /* Chiếm hết phần còn lại */
+    display: flex;
+    flex-direction: column;
+    min-width: 0; /* Fix lỗi flex item bị tràn */
+}
+
+.sort-box {
+    display: flex;              /* Dùng Flexbox */
+    justify-content: flex-end;  /* Đẩy toàn bộ nội dung sang bên PHẢI */
+    width: 100%;                /* Chiếm hết chiều ngang dòng đó để có chỗ đẩy */
+    margin-bottom: 20px;        /* Khoảng cách với danh sách bên dưới */
+}
+
+.sort-box select {
+    width: auto;                /* Quan trọng: Chỉ rộng vừa đủ nội dung, không full màn hình */
+    min-width: 200px;           /* Đặt độ rộng tối thiểu cho đẹp */
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Bóng nhẹ */
+    outline: none;
+}
+
+.sort-box select:hover {
+    border-color: #31B3D9;      /* Đổi màu viền khi di chuột */
+}
+
+/* Danh sách Grid */
+.hotel-list {
+    display: grid;
+    /* Tự động chia cột: tối thiểu 280px, tối đa full */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+/* ========================================= RESPONSIVE ========================================= */
+
+/* Mobile devices (up to 480px) */
+@media only screen and (max-width: 480px) {
+    .explore-hero {
+        height: 170px;
+        margin-top: 55px;
+    }
+
+    .hero-title {
+        font-size: 22px;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .explore-wrapper {
+        flex-direction: column;
+        margin: 20px auto 80px auto;
+        padding: 0 10px;
+    }
+
+    .filter-sidebar {
+        position: static;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .filter-box {
+        position: static;
+        width: 100%;
+        max-height: none;
+        overflow-y: visible;
+    }
+
+    .content-column {
+        width: 100%;
+    }
+
+    .hotel-list {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .sort-box select {
+        min-width: 150px;
+        font-size: 13px;
+    }
+}
+
+/* Tablet devices (481px to 768px) */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+    .explore-hero {
+        height: 130px;
+    }
+
+    .hero-title {
+        font-size: 28px;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 13px;
+        margin-top: 6px;
+    }
+
+    .explore-wrapper {
+        flex-direction: column;
+        margin: 30px auto 80px auto;
+    }
+
+    .filter-sidebar {
+        position: static;
+        width: 100%;
+        margin-bottom: 25px;
+    }
+
+    .filter-box {
+        position: static;
+        width: 100%;
+        max-height: none;
+        overflow-y: visible;
+    }
+
+    .content-column {
+        width: 100%;
+    }
+
+    .hotel-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+/* Large tablets (769px to 1024px) */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+    .explore-wrapper {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .filter-sidebar {
+        position: static;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .filter-box {
+        position: static;
+        width: 100%;
+        max-height: none;
+        overflow-y: visible;
+    }
+
+    .content-column {
+        width: 100%;
+    }
+
+    .hotel-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+}
+
+/* Desktop (1025px and up) */
+@media only screen and (min-width: 1025px) {
+    .hotel-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Large Desktop (1441px and up) */
+@media only screen and (min-width: 1441px) {
+    .hotel-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* =========================================
+   5. HOTEL CARD (THẺ KHÁCH SẠN)
+   ========================================= */
+.hotel-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Cùng chiều cao trong hàng */
+    border: 1px solid #f0f0f0;
+    position: relative;
+}
+
+.hotel-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+}
+
+/* Ảnh bìa */
+.image-wrapper {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.hotel-card:hover .image-wrapper img {
+    transform: scale(1.05);
+}
+
+/* Nút Tim */
+.favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 2;
+    transition: transform 0.2s;
+}
+
+.favorite-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Nội dung Text */
+.card-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.hotel-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: #222;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.location {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Phần giá (đẩy xuống đáy) */
+.price-section {
+    margin-top: auto;
+    text-align: right;
+    padding-top: 12px;
+    border-top: 1px solid #f9f9f9;
+}
+
+.price-number {
+    font-size: 18px;
+    font-weight: 700;
+    color: #31B3D9;
+}
+
+.tax-info {
+    font-size: 11px;
+    color: #999;
+}
+
+/* =========================================
+   6. PAGINATION & NO RESULT
+   ========================================= */
+.pagination {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.page-btn {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.page-btn:hover, .page-btn.active {
+    background: #31B3D9;
+    color: #fff;
+    border-color: #31B3D9;
+}
+.no-result-box {
+    /* Layout cơ bản */
+    width: 100%; 
+    max-width: 1000px; /* Không bao giờ rộng quá 1000px */
+    margin: 20px auto; /* Tự động căn giữa nếu màn hình lớn hơn 1000px */
+    box-sizing: border-box;
+
+    /* Style giao diện */
+    text-align: center;
+    padding: 60px;
+    background: #f8f9fa; /* Màu nền hiện đại hơn chút */
+    border-radius: 12px;
+    color: #666;
+    font-size: 16px;
+    border: 1px dashed #ccc;
+    
+    /* Grid support (phòng hờ nó nằm trong grid) */
+    grid-column: 1 / -1; 
+}
+
+
+/* =========================================
+   7. RESPONSIVE MEDIA QUERIES
+   ========================================= */
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 32px;
+    }
+    
+    .hotel-list {
+        grid-template-columns: 1fr; /* 1 cột duy nhất */
+    }
+    
+    .sort-box {
+        justify-content: flex-start; /* Căn trái ô sort trên mobile */
+    }
+}
+
+@media (max-width: 768px) {
+    .no-result-box {
+        padding: 30px 15px; /* Giảm khoảng cách đệm trên mobile cho gọn */
+        font-size: 14px;    /* Giảm cỡ chữ chút */
+        margin-top: 10px;
+    }
+}

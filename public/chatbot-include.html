@@ -1,0 +1,71 @@
+<!-- ============================================= -->
+<!-- CHATBOT WIDGET - INCLUDE TRONG TẤT CẢ TRANG -->
+<!-- ============================================= -->
+
+<!-- 
+    HƯỚNG DẪN SỬ DỤNG:
+    
+    1. CSS CHATBOT (thêm vào <head>):
+       Chèn dòng này vào trong thẻ <head> của tất cả trang HTML:
+       <link rel="stylesheet" href="../css/chatbot.css">
+    
+    2. JS CHATBOT (thêm trước </body>):
+       Chèn các dòng này ngay trước thẻ đóng </body>:
+       
+       <!-- Thư viện Marked để format text AI (nếu chưa có) -->
+       <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+       <!-- Logic Chatbot -->
+       <script src="../js/chatbot.js" defer></script>
+    
+    3. GỢI Ý KHÁCH SẠN (tùy chọn):
+       Để chatbot hiển thị gợi ý cho trang khách sạn cụ thể,
+       thêm attribute data-hotel-id vào thẻ <body>:
+       
+       <body data-hotel-id="vinpearl-hoian">
+       
+       ID khách sạn phải khớp với ID trong file client/data/hotels.json
+       
+       Ví dụ các ID có sẵn:
+       - vinpearl-hoian
+       - intercontinental-hanoi
+       - furama-danang
+       - jw-marriott-phuquoc
+       - sample-hotel-saigon
+    
+    4. ICON FONTS (nếu chưa có):
+       Đảm bảo trang đã include Font Awesome hoặc Material Icons:
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+-->
+
+<!-- Nút bấm mở chat (cố định góc phải dưới) -->
+<button class="chatbot-toggler">
+    <span class="material-symbols-rounded"><i class="fas fa-comment-dots"></i></span>
+    <span class="material-symbols-outlined"><i class="fas fa-times"></i></span>
+</button>
+
+<!-- Khung chat -->
+<div class="chatbot-container">
+    <div class="chat-header">
+        <div class="header-info">
+            <img src="https://i.ibb.co/6yT4R4B/chatbot-icon.png" alt="bot icon">
+            <span>AI StayWise</span>
+        </div>
+        <button class="close-btn"><i class="fas fa-times"></i></button>
+    </div>
+    
+    <ul class="chat-box">
+        <li class="chat-message incoming">
+            <img src="https://i.ibb.co/6yT4R4B/chatbot-icon.png" alt="bot-icon" class="bot-icon">
+            <div class="message-content">
+                <p>Xin chào! Tôi là AI của StayWise. Tôi có thể giúp bạn tìm khách sạn ưng ý.</p>
+            </div>
+        </li>
+    </ul>
+
+    <div class="chat-input">
+        <textarea placeholder="Nhập tin nhắn..." spellcheck="false" required></textarea>
+        <span id="send-btn" class="material-symbols-rounded"><i class="fas fa-paper-plane"></i></span>
+    </div>
+</div>
+
+<!-- ============================================= -->

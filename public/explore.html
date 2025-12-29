@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayWise - Khám phá</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/explore.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/hotel_card.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/chatbot.css">
+
+    <style>
+        /* Container bao quanh từng ô nhập giá */
+        .price-input-group {
+            display: flex;           /* Xếp ngang */
+            align-items: center;     /* Căn giữa theo chiều dọc */
+            gap: 10px;               /* Khoảng cách giữa ô nhập và chữ */
+            margin-bottom: 10px;     /* Khoảng cách giữa dòng Min và dòng Max */
+        }
+
+        /* Ô input chiếm phần lớn diện tích */
+        .price-input-group input {
+            flex: 1;                 
+            margin-bottom: 0 !important; /* Ghi đè style cũ nếu có */
+        }
+
+        /* Chữ đơn vị tiền tệ */
+        .currency-unit-label {
+            font-weight: 600;
+            color: #555;
+            min-width: 40px;         /* Đảm bảo chữ không bị ép quá nhỏ */
+        }
+        
+        /* Style bổ sung cho ô sắp xếp */
+        .sort-box {
+            display: flex;
+            justify-content: flex-end; /* Căn phải */
+            margin-bottom: 20px;
+            padding-right: 10px;
+        }
+        
+        .sort-box select {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            min-width: 200px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="shared-header"></div>
+
+    <main>
+        <section class="explore-hero">
+            <div class="container">
+                <h1 class="hero-title" data-i18n="explore_hero_title">KHÁM PHÁ CHỖ Ở</h1>
+                <p class="hero-subtitle" data-i18n="explore_hero_subtitle">Tìm kiếm chỗ ở hoàn hảo từ hơn 10,000 nơi lưu trú</p>
+            </div>
+        </section>
+    </main>
+
+    <div class="explore-wrapper">
+
+        <div class="filter-box">
+            <div class="filter-header">
+                <h3 data-i18n="filter_title">Bộ lọc</h3>
+                <button id="resetFilter" class="reset-btn" data-i18n="btn_reset_filter">Xóa tất cả</button>
+            </div>
+
+            <div class="filter-content-scroll">
+                <label data-i18n="lbl_location">Tìm kiếm địa điểm</label>
+                <div class="search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="location" data-i18n="ph_location" placeholder="Thành phố hoặc khu vực..." class="input-text search-input">
+                </div>
+
+                <label data-i18n="lbl_stay_type">Loại hình lưu trú</label>
+                <select id="stayType" class="input-text">
+                    <option value="" data-i18n="opt_all_types">Tất cả loại hình</option>
+                    <option value="Khách sạn" data-i18n="opt_hotel">Khách sạn</option>
+                    <option value="Căn hộ" data-i18n="opt_apartment">Căn hộ</option>
+                    <option value="Khu nghỉ dưỡng" data-i18n="opt_resort">Resort</option>
+                    <option value="Nhà Nghỉ Homestay" data-i18n="opt_homestay">Nhà nghỉ, homestay</option>
+                    <option data-i18n="opt_other">Khác</option>
+                </select>
+
+                <label data-i18n="lbl_price_range">Khoảng giá (mỗi đêm)</label>
+                
+                <div class="price-container">
+                    <div class="price-input-group">
+                        <input type="number" id="priceMin" class="input-text" data-i18n="ph_min" placeholder="Tối thiểu">
+                        <span class="currency-unit-label">VND</span>
+                    </div>
+                    
+                    <div class="price-input-group">
+                        <input type="number" id="priceMax" class="input-text" data-i18n="ph_max" placeholder="Tối đa">
+                        <span class="currency-unit-label">VND</span>
+                    </div>
+                </div>
+                <label data-i18n="lbl_rating">Đánh giá</label>
+                <select id="starRating" class="input-text">
+                    <option value="" data-i18n="opt_all_ratings">Tất cả</option>
+                    <option value="1" data-i18n="rate_1_star">⭐ 1 sao</option>
+                    <option value="2" data-i18n="rate_2_stars">⭐⭐ 2 sao</option>
+                    <option value="3" data-i18n="rate_3_stars">⭐⭐⭐ 3 sao</option>
+                    <option value="4" data-i18n="rate_4_stars">⭐⭐⭐⭐ 4 sao</option>
+                    <option value="5" data-i18n="rate_5_stars">⭐⭐⭐⭐⭐ 5 sao</option>
+                </select>
+
+                <label data-i18n="lbl_main_fac">Tiện ích chính</label>
+                <div id="mainFacilitiesFilter" class="checkbox-group">
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="fac-maylanh" value="Máy lạnh">
+                        <label for="fac-maylanh" data-i18n="fac_ac">Máy lạnh</label>
+                    </div>
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="fac-nhahang" value="Nhà hàng">
+                        <label for="fac-nhahang" data-i18n="fac_restaurant">Nhà hàng</label>
+                    </div>
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="fac-hobo" value="Hồ bơi">
+                        <label for="fac-hobo" data-i18n="fac_pool">Hồ bơi</label>
+                    </div>
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="fac-letan24h" value="Lễ tân 24h">
+                        <label for="fac-letan24h" data-i18n="fac_24h">Lễ tân 24h</label>
+                    </div>
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="fac-chodeuxe" value="Chỗ đậu xe">
+                        <label for="fac-chodeuxe" data-i18n="fac_parking">Chỗ đậu xe</label>
+                    </div>
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="fac-thangmay" value="Thang máy">
+                        <label for="fac-thangmay" data-i18n="fac_elevator">Thang máy</label>
+                    </div>
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="fac-wifi" value="Wifi">
+                        <label for="fac-wifi">WiFi</label>
+                    </div>
+                </div>
+                
+                <label style="margin-top: 15px;" data-i18n="lbl_extra_fac">Tiện ích bổ sung</label>
+                <div id="extraFacilitiesFilter" class="checkbox-group">
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="ext-gym" value="Phòng tập">
+                        <label for="ext-gym" data-i18n="fac_gym">Phòng tập</label>
+                    </div>
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="ext-spa" value="Spa">
+                        <label for="ext-spa" data-i18n="fac_spa">Spa</label>
+                    </div>
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="ext-nhanvienxach" value="Nhân viên xách hành lý">
+                        <label for="ext-nhanvienxach" data-i18n="fac_bellhop">Nhân viên xách hành lý</label>
+                    </div>
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="ext-giatu" value="Dịch vụ giặt ủi">
+                        <label for="ext-giatu" data-i18n="fac_laundry">Dịch vụ giặt ủi</label>
+                    </div>
+                </div>
+            </div>
+
+            <button class="apply-btn" data-i18n="btn_apply">ÁP DỤNG</button>
+            
+        </div>
+
+        <div class="content-column">
+            
+            <div class="sort-box">
+                <select id="sortType" class="input-text">
+                    <option value="" data-i18n="sort_default">Sắp xếp: Mặc định</option>
+                    <option value="priceAsc" data-i18n="sort_price_asc">Giá: Thấp đến Cao</option>
+                    <option value="priceDesc" data-i18n="sort_price_desc">Giá: Cao đến Thấp</option>
+                    <option value="nameAsc" data-i18n="sort_name_asc">Tên: A - Z</option>
+                    <option value="nameDesc" data-i18n="sort_name_desc">Tên: Z - A</option>
+                </select>
+            </div>
+
+            <div id="hotel-list" class="hotel-list"></div>
+            
+            <div id="pagination" class="pagination"></div>
+        </div>
+
+    </div>
+
+    <div id="shared-modals"></div>
+    <div id="shared-footer"></div>
+
+    <script src="../js/include-layout.js"></script>
+    <script type="module" src="../js/auth.js"></script>
+    <script type="module" src="../js/hotels_loader.js"></script>
+    <script type="module" src="../js/hotel_renderer.js"></script>
+    <script type="module" src="../js/explore.js"></script>
+    
+    <script src="../js/settings.js" defer></script>
+    
+    <button class="chatbot-toggler">
+        <span class="material-symbols-rounded"><i class="fas fa-comment-dots"></i></span>
+        <img src="../assets/images/chatbotlogo.png" alt="bot icon" class="chatbot-icon">
+        <span class="material-symbols-outlined"><i class="fas fa-times"></i></span>
+    </button>
+
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <div class="header-info">
+                <img src="../assets/images/chatbotlogo.png" alt="bot icon">
+                <span>AI StayWise</span>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <ul class="chat-box">
+            <li class="chat-message incoming">
+                <img src="../assets/images/chatbotlogo.png" alt="bot-icon" class="bot-icon">
+                <div class="message-content">
+                    <p>Xin chào! Tôi là AI của StayWise. Tôi có thể giúp bạn tìm khách sạn ưng ý.</p>
+                </div>
+            </li>
+        </ul>
+
+        <div class="chat-input">
+            <textarea placeholder="Nhập tin nhắn..." spellcheck="false" required></textarea>
+            <span id="send-btn" class="material-symbols-rounded"><i class="fas fa-paper-plane"></i></span>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../js/chatbot.js" defer></script>
+
+</body>
+</html>

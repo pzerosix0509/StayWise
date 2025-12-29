@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="profile_page_title">Cài đặt hồ sơ - StayWise</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0" />
+    
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../css/chatbot.css">
+</head>
+<body>
+
+    <div id="shared-header"></div>
+
+    <main class="profile-page">
+        <div class="container">
+            <h1 class="page-title" data-i18n="settings_header">Cài đặt</h1>
+
+            <div class="profile-layout">
+                <aside class="profile-sidebar">
+                    <ul class="sidebar-menu">
+                        <li class="active"><a href="#info" id="nav-info" data-i18n="nav_info">Thông tin tài khoản</a></li>
+                        <li><a href="#security" id="nav-security" data-i18n="nav_security">Mật khẩu & Bảo mật</a></li>
+                        <li><a href="#settings" id="nav-notify" data-i18n="nav_notify">Cài đặt thông báo</a></li>
+                    </ul>
+                </aside>
+
+                <div class="profile-content">
+                    
+                    <section id="info-section" class="content-section">
+                        <h2 class="section-title" data-i18n="sec_personal_title">Dữ liệu cá nhân</h2>
+                        
+                        <div class="profile-card">
+                            <form id="profile-form">
+                                <div class="form-group">
+                                    <label data-i18n="lbl_fullname">Tên đầy đủ</label>
+                                    <input type="text" id="fullname" class="form-control" data-i18n="ph_fullname" placeholder="Nhập tên của bạn">
+                                    <small data-i18n="help_fullname">Tên trong hồ sơ được rút ngắn từ họ tên của bạn.</small>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-half">
+                                        <label data-i18n="lbl_gender">Giới tính</label>
+                                        <select id="gender" class="form-control">
+                                            <option value="" data-i18n="opt_gender_def">Chọn giới tính</option>
+                                            <option value="male" data-i18n="opt_gender_m">Nam</option>
+                                            <option value="female" data-i18n="opt_gender_f">Nữ</option>
+                                            <option value="other" data-i18n="opt_gender_o">Khác</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-half">
+                                        <label data-i18n="lbl_dob">Ngày sinh</label>
+                                        <input type="date" id="dob" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label data-i18n="lbl_city">Thành phố cư trú</label>
+                                    <input type="text" id="city" class="form-control" data-i18n="ph_city" placeholder="Thành phố cư trú">
+                                </div>
+
+                                <div class="form-actions right">
+                                    <button type="submit" class="btn btn-primary" id="btn-save" data-i18n="btn_save_profile">Lưu</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="profile-card mt-4">
+                            <div class="section-header">
+                                <div>
+                                    <h3 class="card-title" style="margin-bottom: 5px;" data-i18n="sec_phone_title">Số di động</h3>
+                                    <p class="sub-desc" data-i18n="sec_phone_desc">Chỉ có thể sử dụng 1 số di động để nhận thông báo và bảo mật.</p>
+                                </div>
+                                <button id="btn-add-phone" class="btn btn-outline small" data-i18n="btn_add_phone">+ Thêm số di động</button>
+                            </div>
+                            
+                            <div id="phone-display-area" style="margin-top: 15px;">
+                                <p class="empty-text text-muted" data-i18n="txt_loading">Đang tải...</p>
+                            </div>
+
+                            <div id="recaptcha-container"></div>
+                        </div>
+                    </section>
+
+                    <section id="security-section" class="content-section" style="display: none;">
+                        <h2 class="section-title" data-i18n="sec_security_title">Mật khẩu & Bảo mật</h2>
+
+                        <div class="profile-card">
+                            <h3 class="card-title" data-i18n="card_pass_title">Đổi mật khẩu</h3>
+                            <form id="change-pass-form">
+                                <div class="form-group">
+                                    <label data-i18n="lbl_cur_pass">Mật khẩu hiện tại</label>
+                                    <input type="password" id="current-pass" class="form-control" data-i18n="ph_cur_pass" placeholder="Nhập mật khẩu hiện tại">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-half">
+                                        <label data-i18n="lbl_new_pass">Mật khẩu mới</label>
+                                        <input type="password" id="new-pass" class="form-control" data-i18n="ph_new_pass" placeholder="Tối thiểu 6 ký tự">
+                                    </div>
+                                    <div class="form-group col-half">
+                                        <label data-i18n="lbl_conf_pass">Xác nhận mật khẩu mới</label>
+                                        <input type="password" id="confirm-pass" class="form-control" data-i18n="ph_conf_pass" placeholder="Nhập lại mật khẩu mới">
+                                    </div>
+                                </div>
+                                <div class="form-actions right">
+                                    <button type="submit" class="btn btn-primary" id="btn-change-pass" data-i18n="btn_update_pass">Cập nhật mật khẩu</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="delete-account-card">
+                            <div class="delete-info">
+                                <strong data-i18n="card_del_title">Xóa tài khoản</strong>
+                                <p data-i18n="card_del_desc">Sau khi tài khoản của bạn bị xóa, bạn sẽ không thể phục hồi tài khoản hoặc dữ liệu của mình.</p>
+                            </div>
+                            <button class="btn-text-danger" id="btn-delete-acc" data-i18n="btn_del_acc">Xoá</button>
+                        </div>
+                    </section>
+
+                    <section id="settings-section" class="content-section" style="display: none;">
+                        <h2 class="section-title" data-i18n="sec_notify_title">Cài đặt thông báo</h2>
+
+                        <div class="profile-card">
+                            <h3 class="card-title" data-i18n="card_promo_title">Khuyến mãi và ưu đãi</h3>
+                            
+                            <div class="notification-item">
+                                <div class="notif-info">
+                                    <strong data-i18n="lbl_promo_sw">Khuyến mãi StayWise</strong>
+                                    <span data-i18n="desc_promo_sw">Nhận thông báo về các ưu đãi, giảm giá độc quyền.</span>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="notif-promotion" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="profile-card mt-4">
+                            <h3 class="card-title" data-i18n="card_acc_title">Tài khoản và bảo mật</h3>
+                            
+                            <div class="notification-item">
+                                <div class="notif-info">
+                                    <strong data-i18n="lbl_acc_status">Trạng thái tài khoản</strong>
+                                    <span data-i18n="desc_acc_status">Thông báo về đăng nhập, đổi mật khẩu và cập nhật bảo mật.</span>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="notif-account" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="shared-footer"></div>
+
+ <button class="chatbot-toggler">
+        <span class="material-symbols-rounded"><i class="fas fa-comment-dots"></i></span>
+        <img src="../assets/images/chatbotlogo.png" alt="bot icon" class="chatbot-icon">
+        <span class="material-symbols-outlined"><i class="fas fa-times"></i></span>
+    </button>
+
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <div class="header-info">
+                <img src="../assets/images/chatbotlogo.png" alt="bot icon">
+                <span>AI StayWise</span>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <ul class="chat-box">
+            <li class="chat-message incoming">
+                <img src="../assets/images/chatbotlogo.png" alt="bot-icon" class="bot-icon">
+                <div class="message-content">
+                    <p>Xin chào! Tôi là AI của StayWise. Tôi có thể giúp bạn tìm khách sạn ưng ý.</p>
+                </div>
+            </li>
+        </ul>
+
+        <div class="chat-input">
+            <textarea placeholder="Nhập tin nhắn..." spellcheck="false" required></textarea>
+            <span id="send-btn" class="material-symbols-rounded"><i class="fas fa-paper-plane"></i></span>
+        </div>
+    </div>
+    <div id="shared-modals"></div>
+
+    <div id="phone-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 class="modal-title" data-i18n="modal_add_phone_title">THÊM SỐ ĐIỆN THOẠI</h3>
+            <p class="modal-desc" data-i18n="modal_add_phone_desc">Thêm số điện thoại đang sử dụng của bạn để đăng nhập và nhận thông báo</p>
+            
+            <label class="modal-label" data-i18n="lbl_modal_phone">Điện thoại</label>
+            
+            <div id="step-phone-input">
+                <div class="phone-input-group">
+                    <div class="country-code">+84</div>
+                    <input type="tel" id="new-phone-input" class="phone-field" placeholder="Ví dụ: 901234567">
+                </div>
+                <p id="phone-error-msg" class="error-text" style="display:none; color:red; font-size:12px; margin-top:5px;"></p>
+            </div>
+
+            <div id="step-otp-input" style="display: none;">
+                <div class="phone-input-group">
+                    <input type="text" id="otp-input" class="phone-field" data-i18n="ph_otp" placeholder="Nhập mã OTP 6 số" style="text-align: center; letter-spacing: 5px; font-weight: bold;">
+                </div>
+                <p class="modal-desc" data-i18n="desc_otp_sent" style="margin-top: 10px;">Mã OTP đã được gửi đến số điện thoại của bạn.</p>
+            </div>
+
+            <div class="modal-actions">
+                <button id="btn-confirm-phone" class="btn-modal btn-save" data-i18n="btn_modal_save">Lưu</button>
+                <button id="btn-cancel-phone" class="btn-modal btn-cancel" data-i18n="btn_modal_cancel">Hủy</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="delete-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 class="modal-title text-danger" style="color: #dc3545;" data-i18n="modal_del_title_confirm">XÓA TÀI KHOẢN?</h3>
+            <p class="modal-desc" data-i18n="modal_del_desc_confirm">Hành động này không thể hoàn tác. Để tiếp tục, vui lòng nhập mật khẩu của bạn.</p>
+            
+            <input type="password" id="delete-confirm-pass" class="form-control" data-i18n="ph_del_pass" placeholder="Nhập mật khẩu của bạn" style="margin: 15px 0;">
+            
+            <div class="modal-actions">
+                <button id="btn-confirm-delete" class="btn-modal btn-save" style="background: #dc3545; color: white; border: none;" data-i18n="btn_del_perm">Xóa vĩnh viễn</button>
+                <button id="btn-cancel-delete" class="btn-modal btn-cancel" data-i18n="btn_modal_cancel">Hủy</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/settings.js"></script> 
+    <script src="../js/include-layout.js"></script>
+    <script type="module" src="../js/auth.js"></script>
+    <script type="module" src="../js/profile.js"></script>
+    <script type="module" src="../js/chatbot.js"></script>
+
+</body>
+</html>

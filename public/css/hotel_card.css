@@ -1,0 +1,458 @@
+
+* {
+  box-sizing: border-box;
+}
+
+.hotel-card {
+  width: 100%;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  font-family: "Open Sans", sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hotel-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 20px rgba(49, 179, 217, 0.25);
+}
+
+/* ===== IMAGE ===== */
+.hotel-image-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden; /* tránh ảnh zoom tràn */
+}
+
+.hotel-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* ========================================= RESPONSIVE ========================================= */
+
+/* Mobile devices (up to 480px) */
+@media only screen and (max-width: 480px) {
+  .hotel-card {
+    margin-bottom: 15px;
+  }
+
+  .hotel-image {
+    height: 180px;
+  }
+
+  .hotel-name {
+    font-size: 16px;
+  }
+
+  .hotel-price {
+    font-size: 16px;
+  }
+}
+
+/* Tablet devices (481px to 768px) */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  .hotel-image {
+    height: 190px;
+  }
+}
+
+/* Khi hover card → ảnh zoom nhẹ */
+.hotel-card:hover .hotel-image {
+  transform: scale(1.2);
+}
+
+/* ===== FAVORITE BUTTON (TRÁI TIM) ===== */
+.favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 28px;
+  padding: 0;
+}
+
+.favorite-btn i {
+  font-size: 22px;
+  color: #fff;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+  transition: color 0.25s ease;
+}
+
+.favorite-btn:hover i,
+.favorite-btn.liked i {
+  color: #ff4b4b;
+}
+
+/* ===== INFO SECTION ===== */
+.hotel-info {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  color: #222;
+  min-height: 160px;
+}
+
+/* Tên, vị trí, rating giữ màu, hover đổi màu */
+.hotel-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  color: #222;
+  transition: color 0.25s ease;
+}
+
+.hotel-card:hover .hotel-name {
+  color: #31B3D9;
+}
+
+/* ===== LOCATION ===== */
+.hotel-location {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.hotel-location i {
+  margin-right: 4px;
+  color: #555;
+}
+
+.hotel-location span {
+  color: #555;
+}
+
+/* ===== RATING ===== */
+.hotel-rating {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #444;
+  display: flex;
+  align-items: center;
+}
+
+.hotel-rating i {
+  color: #FFC107;
+  margin-right: 4px;
+}
+
+/* ===== TYPE ===== */
+.hotel-type {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+/* ===== PRICE BLOCK ===== */
+.hotel-price-block {
+  margin-top: auto; /* đẩy xuống đáy */
+  align-self: flex-end; /* canh sang phải */
+  text-align: right;
+  color: #444;
+}
+
+.hotel-night {
+  font-size: 13px;
+  color: #666;
+}
+
+.hotel-price {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2A9FD6;
+  margin: 2px 0;
+}
+
+.hotel-tax {
+  font-size: 12px;
+  color: #666;
+}
+
+/* =======================================================
+   HOTEL CARD MINIMAL 600PX STYLE (3-CỘT)
+   ======================================================= */
+
+.hotel-card-minimal-600 {
+  /* Không đặt width/height cố định, để inline styles từ JS quyết định */
+  max-width: 100%;
+  margin: 15px 0;
+}
+
+.hotel-card-minimal-600:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(49, 179, 217, 0.25);
+}
+
+/* ===== RANK BADGE ===== */
+.hotel-card-minimal-600 .rank-badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #0011ff;
+  color: white;
+  font-weight: 500;
+  font-size: 1em;
+  padding: 5px 10px;
+  border-radius: 12px 0 12px 0;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* TOP 1 VÀNG LẤP LÁNH */
+.hotel-card-minimal-600[data-rank='1'] .rank-badge {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #111;
+  font-size: 1.2em;
+  font-weight: 900;
+  animation: gold-shine 1.5s infinite alternate;
+  box-shadow: 0 4px 8px rgba(255, 165, 0, 0.5);
+}
+
+@keyframes gold-shine {
+  0% { transform: scale(1); box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+  100% { transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 165, 0, 0.8); }
+}
+
+/* TOP 2-3 XANH NỔI BẬT */
+.hotel-card-minimal-600[data-rank="2"] .rank-badge,
+.hotel-card-minimal-600[data-rank="3"] .rank-badge {
+  background-color: #31B3D9;
+  color: white;
+  font-size: 1.1em;
+  font-weight: 700;
+}
+
+/* ===== TYPOGRAPHY ===== */
+.hotel-card-minimal-600 .hotel-name {
+  font-size: 1.2em;
+  font-weight: 700;
+  color: #111;
+}
+
+.review-score-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 5px 0;
+}
+
+.score-box-display {
+  font-size: 25px;
+  font-weight: 700;
+  color: #31B3D9;
+}
+
+.review-count-display {
+  font-size: 0.9em;
+  color: #6b7280;
+}
+
+.price-condition {
+  font-size: 0.85em;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.final-price-minimal {
+  font-size: 1.8em;
+  font-weight: 700;
+  color: #31B3D9;
+  margin: 5px 0 0 0;
+  line-height: 1;
+}
+
+.price-condition {
+  font-size: 0.85em;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.final-price-minimal {
+  font-size: 1.8em;
+  font-weight: 700;
+  color: #31B3D9;
+  margin: 5px 0 0 0;
+  line-height: 1;
+}
+
+/* ẨN PHẦN TỬ KHÔNG DÙNG */
+.hotel-card-minimal-600 .description-preview,
+.hotel-card-minimal-600 .see-more-link,
+.hotel-card-minimal-600 .beach-side-tag,
+.hotel-card-minimal-600 .original-price,
+.hotel-card-minimal-600 .exclude-taxes,
+.hotel-card-minimal-600 .select-room-btn {
+  display: none !important;
+}
+
+/* =======================================================
+   RESPONSIVE: TABLET & MOBILE (≤768px) - 2 CỘT
+   ======================================================= */
+
+@media (max-width: 768px) {
+  .hotel-card-minimal-600 {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 200px;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 12px !important;
+    padding: 12px !important;
+    margin: 15px 0 !important;
+  }
+
+  /* CỘT 1: ẢNH (40%) */
+  .hotel-card-minimal-600 .card-media-col {
+    width: 40% !important;
+    height: auto !important;
+    flex-shrink: 0 !important;
+  }
+
+  .hotel-card-minimal-600 .main-hotel-image {
+    width: 100% !important;
+    height: 200px !important;
+    border-radius: 8px !important;
+    object-fit: cover !important;
+  }
+
+  /* WRAPPER BỌC THÔNG TIN + GIÁ: chiếm 60%, chuyển thành cột dọc */
+  .hotel-card-minimal-600 .card-content-wrapper {
+    width: 60% !important;
+    flex: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+  }
+
+  /* CỘT 2A: THÔNG TIN (phần trên của wrapper) */
+  .hotel-card-minimal-600 .card-info-col {
+    width: 100% !important;
+    flex: none !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    overflow: visible !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* CỘT 2B: GIÁ (phần dưới của wrapper) */
+  .hotel-card-minimal-600 .card-price-col {
+    width: 100% !important;
+    flex: none !important;
+    border-left: none !important;
+    border-top: 1px solid #e0e0e0 !important;
+    padding: 10px 0 0 0 !important;
+    margin: 0 !important;
+    text-align: left !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+  }
+
+  .hotel-card-minimal-600 .hotel-name {
+    font-size: 15px !important;
+    line-height: 1.3 !important;
+    margin-bottom: 6px !important;
+    -webkit-line-clamp: 2 !important;
+  }
+
+  .hotel-card-minimal-600 .hotel-details {
+    font-size: 12px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .hotel-card-minimal-600 .type-line {
+    font-size: 11px !important;
+  }
+
+  .hotel-card-minimal-600 .location-line {
+    font-size: 11px !important;
+  }
+
+  .hotel-card-minimal-600 .review-score-line {
+    margin: 6px 0 !important;
+    gap: 6px !important;
+  }
+
+  .hotel-card-minimal-600 .review-score-line > div:first-child {
+    padding: 3px 6px !important;
+    font-size: 13px !important;
+  }
+
+  .hotel-card-minimal-600 .review-count-display {
+    font-size: 11px !important;
+  }
+
+  .hotel-card-minimal-600 .price-condition {
+    font-size: 10px !important;
+    margin-bottom: 3px !important;
+  }
+
+  .hotel-card-minimal-600 .final-price-wrapper {
+    margin: 4px 0 !important;
+  }
+
+  .hotel-card-minimal-600 .final-price-wrapper span {
+    font-size: 16px !important;
+  }
+
+  .hotel-card-minimal-600 .tax-fee-note {
+    font-size: 9px !important;
+    margin-top: 3px !important;
+  }
+
+  /* Rank badge responsive */
+  .hotel-card-minimal-600 .rank-badge {
+    font-size: 10px !important;
+    padding: 3px 8px !important;
+  }
+
+  .hotel-card-minimal-600[data-rank='1'] .rank-badge {
+    font-size: 11px !important;
+  }
+
+  /* Favorite button */
+  .hotel-card-minimal-600 .favorite-btn i {
+    font-size: 18px !important;
+  }
+}
+
+/* MOBILE NHỎ (≤480px) - Thu nhỏ hơn nữa */
+@media (max-width: 480px) {
+  .hotel-card-minimal-600 {
+    gap: 10px !important;
+    padding: 10px !important;
+    min-height: 180px;
+  }
+
+  .hotel-card-minimal-600 .card-media-col {
+    width: 40% !important;
+  }
+
+  .hotel-card-minimal-600 .main-hotel-image {
+    height: 160px !important;
+  }
+
+  .hotel-card-minimal-600 .hotel-name {
+    font-size: 14px !important;
+  }
+
+  .hotel-card-minimal-600 .final-price-wrapper span {
+    font-size: 15px !important;
+  }
+
+  .hotel-card-minimal-600 .rank-badge {
+    font-size: 9px !important;
+    padding: 3px 6px !important;
+  }
+}

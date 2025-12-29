@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayWise - Khám phá địa danh</title>
+
+    <!-- CSS chính -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- CSS cho Chatbot (QUAN TRỌNG) -->
+    <link rel="stylesheet" href="../css/chatbot.css">
+
+    <link rel="stylesheet" href="../css/destination_detail.css">
+
+    <!-- Icon FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Icon Google Material (Hỗ trợ hiển thị icon cho chatbot nếu cần) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+
+    <!-- Thư viện Marked để format text AI -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Header nhập từ file HTML chung -->
+    <div id="shared-header"></div>
+
+    <main>
+
+        <section class="top-review-hero destination-hero" id="destination-hero">
+            <div class="hero-content">
+
+                <p class="hero-pre-title" id="pre-title">
+                    Khám phá địa danh nổi tiếng cùng <span class="logo-text-styled">StayWise</span>
+                </p>
+
+                <h1 class="hero-main-title" id="destination-name-title">
+                    [Tên Thành phố]
+                </h1>
+
+                <p class="destination-subtitle" id="destination-subtitle">
+                    Hãy cùng khám phá những nét đặc sắc về địa danh nổi tiếng, con người, văn hóa và cơ sở lưu trú của [Tên Thành phố] nhé!
+                </p>
+
+                </div>
+        </section>
+
+        <section class="destination-content-section">
+            <div class="container">
+                
+                <div id="destination-info-placeholder">
+                    <p style="text-align: center; padding: 50px; color: #888;">Đang tải thông tin địa danh...</p>
+                </div>
+
+            </div>
+        </section>
+        <section class="destination-cta-section">
+            <div class="container">
+
+                <!-- Nút CTA: Sẽ được cập nhật động theo tên thành phố được chọn -->
+                <button id="explore-hotels-btn" class="btn btn-primary btn-cta">
+                    Khám phá hệ thống các khách sạn tại [Tên Thành phố] ngay
+                </button>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Xem Thêm Nội Dung -->
+    <div class="modal-overlay" id="content-modal-overlay">
+        <div class="description-modal-container">
+            <div class="modal-image-section" id="modal-image-bg">
+                <!-- Background image will be set via JS -->
+            </div>
+            
+            <div class="modal-content-section">
+                <button class="modal-close-btn" id="content-close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+
+                <h2 class="modal-heading" id="modal-content-title">Tiêu đề</h2>
+
+                <div id="full-content-text" class="full-description-content-scroll">
+                    <!-- Nội dung đầy đủ sẽ được chèn vào đây -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- PHẦN CHATBOT WIDGET -->
+    <!-- ============================================= -->
+    
+    <!-- Nút bấm mở chat -->
+    <button class="chatbot-toggler">
+        <span class="material-symbols-rounded"><i class="fas fa-comment-dots"></i></span>
+        <img src="../assets/images/chatbotlogo.png" alt="bot icon" class="chatbot-icon">
+        <span class="material-symbols-outlined"><i class="fas fa-times"></i></span>
+    </button>
+
+    <!-- Khung chat -->
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <div class="header-info">
+                <img src="../assets/images/chatbotlogo.png" alt="bot icon">
+                <span>AI StayWise</span>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <ul class="chat-box">
+            <li class="chat-message incoming">
+                <img src="../assets/images/chatbotlogo.png" alt="bot-icon" class="bot-icon">
+                <div class="message-content">
+                    <p>Xin chào! Tôi là AI của StayWise. Tôi có thể giúp bạn tìm khách sạn ưng ý.</p>
+                </div>
+            </li>
+        </ul>
+
+        <div class="chat-input">
+            <textarea placeholder="Nhập tin nhắn..." spellcheck="false" required></textarea>
+            <span id="send-btn" class="material-symbols-rounded"><i class="fas fa-paper-plane"></i></span>
+        </div>
+    </div>
+    <!-- ============================================= -->
+    <!-- Modal + Footer chung -->
+    <div id="shared-modals"></div>
+    <div id="shared-footer"></div>
+
+    <!-- Script include layout -->
+    <script src="../js/include-layout.js"></script>
+    
+    <script type="module" src="../js/destination_detail.js"></script>
+
+    <!-- Logic đăng nhập -->
+    <script type="module" src="../js/auth.js"></script>
+
+    <!-- Logic Chatbot -->
+    <script src="../js/chatbot.js" defer></script>
+
+</body>
+</html>

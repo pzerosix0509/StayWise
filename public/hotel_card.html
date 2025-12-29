@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<link href="../css/hotel_card.css" rel="stylesheet">
+
+<div class="hotel-card" data-hotel-id="{{id}}" data-url="{{url}}">
+    <div class="hotel-image-wrapper">
+        <img src="{{image}}" alt="" class="hotel-image">
+        <button class="favorite-btn"><i class="bi bi-heart-fill"></i></button>
+    </div>
+    <div class="hotel-info clickable-area">
+        <h3 class="hotel-name">{{name}}</h3>
+        <div class="hotel-location">
+            <i class="bi bi-geo-alt-fill"></i>
+            <span>{{location}}</span>
+        </div>
+        <div class="hotel-rating">
+            <i class="bi bi-star-fill"></i>
+            <span>{{rating}}</span>
+        </div>
+        <div class="hotel-type"><span>{{type}}</span></div>
+        <div class="hotel-price-block">
+            <span class="hotel-night">{{nightInfo}}</span>
+            <span class="hotel-price">{{price}}</span>
+            <span class="hotel-tax">{{taxFee}}</span>
+        </div>
+    </div>
+</div>

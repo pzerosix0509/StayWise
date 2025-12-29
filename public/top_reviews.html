@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayWise - Top Reviews</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/top_reviews.css">
+    <link rel="stylesheet" href="../css/hotel_card.css">
+    
+    <link rel="stylesheet" href="../css/chatbot.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+
+    <div id="shared-header"></div>
+
+    <main>
+
+        <section class="top-review-hero" id="review-hero">
+            <div class="hero-content">
+
+                <p class="hero-pre-title" id="pre-title" data-i18n="top_hero_pre">
+                    Đề xuất của <span class="logo-text-styled">StayWise</span>
+                </p>
+
+                <h1 class="hero-main-title" data-i18n="top_hero_main">Khám phá top 10 khách sạn tốt nhất</h1>
+
+                <div class="city-selector-bar">
+                    <div class="input-group">
+                        <span class="icon-round">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </span>
+                        
+                        <select id="city-select" class="city-select-input">
+                            <option value="" disabled selected data-i18n="top_select_default">Chọn địa điểm du lịch</option>
+                            </select>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="top-hotels-list-section">
+            <div class="container">
+
+                <h2 id="list-title" class="list-title" data-i18n="top_list_title_default">
+                    Vui lòng chọn địa điểm du lịch
+                </h2>
+                
+                <p id="list-explanation" class="list-explanation" data-i18n="top_explanation">
+                    Xếp hạng này dựa trên điểm số trung bình tổng hợp cao nhất từ StayWise và các nguồn đối tác, áp dụng cho các khách sạn có tối thiểu 50 đánh giá trở lên.
+                </p>
+
+                <div id="top-hotels-list" class="hotel-list-grid"></div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <button class="chatbot-toggler">
+        <span class="material-symbols-rounded"><i class="fas fa-comment-dots"></i></span>
+        <img src="../assets/images/chatbotlogo.png" alt="bot icon" class="chatbot-icon">
+        <span class="material-symbols-outlined"><i class="fas fa-times"></i></span>
+    </button>
+
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <div class="header-info">
+                <img src="../assets/images/chatbotlogo.png" alt="bot icon">
+                <span>AI StayWise</span>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <ul class="chat-box">
+            <li class="chat-message incoming">
+                <img src="../assets/images/chatbotlogo.png" alt="bot-icon" class="bot-icon">
+                <div class="message-content">
+                    <p>Xin chào! Tôi là AI của StayWise. Tôi có thể giúp bạn tìm khách sạn ưng ý.</p>
+                </div>
+            </li>
+        </ul>
+
+        <div class="chat-input">
+            <textarea placeholder="Nhập tin nhắn..." spellcheck="false" required></textarea>
+            <span id="send-btn" class="material-symbols-rounded"><i class="fas fa-paper-plane"></i></span>
+        </div>
+    </div>
+
+    <div id="shared-modals"></div>
+    <div id="shared-footer"></div>
+
+    <script src="../js/include-layout.js"></script>
+    
+    <script type="module" src="../js/hotels_loader.js"></script>
+    <script type="module" src="../js/hotel_renderer.js"></script>
+    <script type="module" src="../js/top_reviews.js"></script>
+    <script type="module" src="../js/reviews_loader.js"></script>
+    <script type="module" src="../js/information_page.js"></script>
+
+    <script type="module" src="../js/auth.js"></script>
+
+    <script src="../js/chatbot.js" defer></script>
+    
+    <script src="../js/settings.js" defer></script>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StayWise Header</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+  
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+  <header>
+    <div class="nav-container">
+      
+      <a href="index.html" class="logo">
+        <img
+          src="https://i.ibb.co/svmqpTfX/Logo-Stay-Wise.png"
+          alt="Logo-Stay-Wise"
+        />
+      </a>
+
+      <div class="center-nav-group">
+        <button id="settings-trigger" class="settings-btn">
+          <img 
+            src="https://flagcdn.com/w40/vn.png" 
+            alt="Vietnam Flag" 
+            class="flag-icon" 
+            id="header-flag"
+          >
+          <span class="currency-text" id="header-currency">VND</span>
+          <i class="fas fa-chevron-down dropdown-arrow"></i>
+        </button>
+
+        <nav class="nav-menu">
+          <ul>
+            <li><a href="index.html" data-i18n="nav_home">Trang chủ</a></li>
+            <li><a href="explore.html" data-i18n="nav_explore">Khám phá</a></li>
+            <li><a href="top_reviews.html" data-i18n="nav_top_reviews">Khách sạn tốt nhất</a></li>
+            <li><a href="favourite.html" data-i18n="nav_fav">Yêu thích</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="auth-buttons">
+        <button class="btn btn-secondary" data-i18n="btn_login">Đăng nhập</button>
+        <button class="btn btn-primary" data-i18n="btn_register">Đăng ký</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="settings-modal" class="settings-modal"> 
+    
+    <div class="modal-content"> 
+      <button id="close-settings" class="close-btn">&times;</button>
+
+      <h3 data-i18n="modal_lang">Chọn ngôn ngữ</h3>
+      <div class="options">
+        <div class="select-option lang-option" data-value="vi">
+            <img src="https://flagcdn.com/w40/vn.png" alt="VN" class="flag-icon"> 
+            <span>Tiếng Việt</span>
+            <i class="fas fa-check check-mark"></i>
+        </div>
+        <div class="select-option lang-option" data-value="en">
+            <img src="https://flagcdn.com/w40/gb.png" alt="UK" class="flag-icon"> 
+            <span>English</span>
+            <i class="fas fa-check check-mark"></i>
+        </div>
+      </div>
+
+      <h3 data-i18n="modal_curr">Chọn tiền tệ</h3>
+      <div class="options">
+        <div class="select-option curr-option" data-value="VND">
+            <span data-i18n="curr_vnd_desc">VND - Đồng Việt Nam</span>
+            <i class="fas fa-check check-mark"></i>
+        </div>
+
+        <div class="select-option curr-option" data-value="USD">
+            <span data-i18n="curr_usd_desc">USD - Đô la Mỹ</span>
+            <i class="fas fa-check check-mark"></i>
+        </div>
+      </div>
+
+      <button id="save-settings-btn" class="save-btn" data-i18n="btn_save">Lưu thay đổi</button>
+    </div>
+  </div>
+
+  <script src="../js/settings.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayWise - Trang chủ</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <link rel="stylesheet" href="../css/chatbot.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+
+    <div id="shared-header"></div>
+
+    <main>
+
+        <section class="hero">
+            <div class="hero-content">
+                <h1 data-i18n="hero_title">Khám phá chỗ ở phù hợp<br>cho bạn tại Việt Nam</h1>
+                <div class="search-bar">
+                    <div class="input-group">
+                        <span class="icon-round">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </span>
+                        <input
+                            type="text"
+                            id="home-location"
+                            data-i18n="placeholder_loc"
+                            placeholder="Địa điểm (Thành phố, khu vực...)"
+                            required
+                        >
+                    </div>
+
+                    <div class="input-group price-min-group">
+                        <span class="icon-round">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </span>
+                        <input
+                            type="number"
+                            id="home-price-min"
+                            data-i18n="placeholder_min"
+                            placeholder="Giá tối thiểu (VND)"
+                        >
+                    </div>
+
+                    <div class="input-group price-max-group">
+                        <span class="icon-round">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </span>
+                        <input
+                            type="number"
+                            id="home-price-max"
+                            data-i18n="placeholder_max"
+                            placeholder="Giá tối đa (VND)"
+                        >
+                    </div>
+
+                    <button class="btn-search" id="home-search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-block">
+                        <span>10 000+</span>
+                        <p data-i18n="stat_props">Chỗ nghỉ</p>
+                    </div>
+
+                    <div class="stat-block">
+                        <span>34</span>
+                        <p data-i18n="stat_provs">Tỉnh thành</p>
+                    </div>
+
+                    <div class="stat-block">
+                        <span>4,8★</span>
+                        <p data-i18n="stat_rating">Điểm đánh giá</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="why-us">
+            <div class="container">
+                <h2 data-i18n="why_title">Tại sao chọn StayWise của chúng tôi?</h2>
+
+                <div class="features-grid">
+
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 data-i18n="feat_ai">Đề xuất được hỗ trợ bởi AI</h3>
+                        <p data-i18n="feat_ai_desc">Nhận đề xuất được cá nhân hóa dựa trên sở thích và phong cách du lịch của bạn.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-thumbs-up"></i>
+                        </div>
+                        <h3 data-i18n="feat_verify">Các chỗ nghỉ đã được xác minh</h3>
+                        <p data-i18n="feat_verify_desc">Tất cả chỗ nghỉ đều được xác minh và đánh giá bởi khách du lịch thực tế.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-headphones-alt"></i>
+                        </div>
+                        <h3 data-i18n="feat_support">Hỗ trợ 24/7</h3>
+                        <p data-i18n="feat_support_desc">Đội ngũ của chúng tôi luôn sẵn sàng hỗ trợ bạn mọi thắc mắc.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="popular-locations">
+            <div class="container">  
+                <h2 class="destination-heading" data-i18n="pop_dest_title">Các địa điểm du lịch nổi tiếng<br><br></h2>
+                <div class="location-grid" id="popular-locations-grid"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <button class="chatbot-toggler">
+        <span class="material-symbols-rounded"><i class="fas fa-comment-dots"></i></span>
+        <img src="../assets/images/chatbotlogo.png" alt="bot icon" class="chatbot-icon">
+        <span class="material-symbols-outlined"><i class="fas fa-times"></i></span>
+    </button>
+
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <div class="header-info">
+                <img src="../assets/images/chatbotlogo.png" alt="bot icon">
+                <span>AI StayWise</span>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <ul class="chat-box">
+            <li class="chat-message incoming">
+                <img src="../assets/images/chatbotlogo.png" alt="bot-icon" class="bot-icon">
+                <div class="message-content">
+                    <p>Xin chào! Tôi là AI của StayWise. Tôi có thể giúp bạn tìm khách sạn ưng ý.</p>
+                </div>
+            </li>
+        </ul>
+
+        <div class="chat-input">
+            <textarea placeholder="Nhập tin nhắn..." spellcheck="false" required></textarea>
+            <span id="send-btn" class="material-symbols-rounded"><i class="fas fa-paper-plane"></i></span>
+        </div>
+    </div>
+
+    <div id="shared-modals"></div>
+    <div id="shared-footer"></div>
+
+    <script src="../js/include-layout.js"></script>
+    <script type="module" src="../js/home.js"></script>
+    <script type="module" src="../js/auth.js"></script>
+    <script src="../js/chatbot.js" defer></script>
+    <script src="../js/settings.js" defer></script>
+
+</body>
+</html>

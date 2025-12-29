@@ -1,0 +1,225 @@
+/* Banner màu xanh đặc trưng */
+.fav-banner {
+    background-color: #31B3D9;
+    color: white;
+    padding: 30px 0; /* 👉 ĐÃ SỬA: Giảm từ 60px xuống 30px để khung hẹp lại */
+    margin-top: 60px; /* Tránh header che mất */
+    text-align: left; /* Canh trái theo yêu cầu */
+}
+/* ========================================= RESPONSIVE ========================================= */
+
+/* Mobile devices (up to 480px) */
+@media only screen and (max-width: 480px) {
+    .fav-banner {
+        padding: 20px 0;
+        margin-top: 55px;
+    }
+
+    .fav-banner h1 {
+        font-size: 24px;
+    }
+
+    .fav-banner p {
+        font-size: 14px;
+    }
+
+    .fav-content {
+        padding: 20px 0 80px 0;
+    }
+
+    .sort-wrapper {
+        justify-content: center;
+    }
+}
+
+/* Tablet devices (481px to 768px) */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+    .fav-banner h1 {
+        font-size: 30px;
+    }
+
+    .fav-content {
+        padding: 25px 0 80px 0;
+    }
+}
+.fav-banner h1 {
+    font-size: 36px; /* 👉 ĐÃ SỬA: Giảm font một chút (45->36) cho cân đối với khung hẹp */
+    font-weight: 800;
+    margin: 0 0 5px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.fav-banner p {
+    font-size: 16px;
+    margin: 0;
+    opacity: 0.95;
+    font-weight: 500;
+}
+
+/* Phần nội dung chính */
+.fav-content {
+    padding: 30px 0 60px 0;
+    background-color: #f9f9f9;
+    /* Đẩy footer xuống dưới cùng */
+    min-height: 75vh; 
+}
+
+/* --- TOOLBAR SẮP XẾP (MỚI) --- */
+.fav-toolbar {
+    display: flex;
+    justify-content: flex-end; /* Đẩy sang phải */
+    margin-bottom: 25px;
+    align-items: center;
+}
+
+.sort-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    padding: 10px 20px;
+    border-radius: 30px; /* Bo tròn mềm mại */
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.sort-wrapper:hover {
+    border-color: #31B3D9;
+    box-shadow: 0 4px 10px rgba(49, 179, 217, 0.15);
+}
+
+.sort-wrapper label {
+    font-weight: 600;
+    color: #555;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.sort-wrapper i {
+    color: #31B3D9;
+}
+
+.sort-select {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+    background: transparent;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    min-width: 150px; /* Đảm bảo độ rộng ổn định */
+}
+
+/* Grid hiển thị card */
+.hotel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .hotel-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .hotel-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .fav-banner {
+        text-align: center; 
+        padding: 30px 0;
+    }
+    .fav-banner h1 {
+        font-size: 28px;
+    }
+    
+    .fav-toolbar {
+        justify-content: center;
+    }
+}
+
+/* Trạng thái trống */
+.empty-state {
+    text-align: center;
+    padding: 80px 0;
+    display: none;
+}
+
+.empty-state.hidden {
+    display: none;
+}
+
+.empty-state:not(.hidden) {
+    display: block;
+}
+
+.empty-state img {
+    width: 200px;
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+.empty-state h3 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.empty-state p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.loading-spinner {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px;
+    color: #666;
+    font-style: italic;
+    font-size: 16px;
+}
+
+/* Tinh chỉnh card khách sạn trong trang này */
+.hotel-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%; /* Đảm bảo các card cao bằng nhau */
+    display: flex;
+    flex-direction: column;
+}
+
+.hotel-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.hotel-info {
+    flex-grow: 1; /* Để phần nội dung tự giãn */
+    display: flex;
+    flex-direction: column;
+}
+
+.hotel-price-block {
+    margin-top: auto; /* Đẩy giá xuống đáy card */
+}
+
+/* Nút tim trong trang yêu thích nên luôn sáng */
+.hotel-card .favorite-btn {
+    color: #ff4757; /* Màu đỏ */
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.hotel-card .favorite-btn:hover {
+    background: #ff4757;
+    color: white;
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StayWise - Yêu thích</title>
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/favourite.css">
+  <link rel="stylesheet" href="../css/hotel_card.css">
+  <link rel="stylesheet" href="../css/chatbot.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* giữ CSS cần thiết (giữ nguyên từ file bạn gửi) */
+    .hotel-card .favorite-btn { border: none !important; outline: none !important; background-color: transparent !important; box-shadow: none !important; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s;}
+    .hotel-card .favorite-btn:hover { transform: scale(1.1); background-color: #fff; }
+    .hotel-card .favorite-btn i { font-size: 18px; margin-top: 2px; }
+
+    .sort-wrapper { position: relative; background: #fff; border-radius: 8px; border: 1px solid #ddd; padding: 0; overflow: hidden; display: flex; align-items: center; width: 220px; height: 40px; cursor: pointer; }
+    .sort-icon-left { position: absolute; left: 12px; color: #31B3D9; pointer-events: none; z-index: 1; }
+    .sort-select { appearance: none; -webkit-appearance: none; -moz-appearance: none; width: 100%; height: 100%; border: none; background: transparent; padding-left: 35px; padding-right: 30px; font-family: 'Open Sans', sans-serif; font-size: 14px; font-weight: 600; color: #333; cursor: pointer; outline: none; }
+    .sort-arrow { position: absolute; right: 12px; color: #666; font-size: 12px; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <div id="shared-header"></div>
+
+  <main>
+    <section class="fav-banner">
+      <div class="container">
+        <h1 data-i18n="fav_title">CHỖ Ở YÊU THÍCH</h1>
+        <p data-i18n="fav_subtitle">Chỗ ở đã lưu của bạn</p>
+      </div>
+    </section>
+
+    <section class="fav-content">
+      <div class="container">
+        <div class="fav-toolbar">
+          <div class="sort-wrapper">
+            <i class="fas fa-sort-amount-down sort-icon-left"></i>
+            <select id="fav-sort" class="sort-select">
+              <option value="default" data-i18n="sort_recent">Mới thêm gần đây</option>
+              <option value="priceAsc" data-i18n="sort_price_asc">Giá: Thấp đến Cao</option>
+              <option value="priceDesc" data-i18n="sort_price_desc">Giá: Cao đến Thấp</option>
+              <option value="ratingDesc" data-i18n="sort_rating_desc">Đánh giá cao nhất</option>
+            </select>
+            <i class="fas fa-chevron-down sort-arrow"></i>
+          </div>
+        </div>
+
+        <div id="fav-list" class="hotel-grid">
+          <div class="loading-spinner" data-i18n="loading_fav">Đang tải danh sách yêu thích...</div>
+        </div>
+
+        <div id="empty-state" class="empty-state hidden">
+          <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png" alt="Empty">
+          <h3 data-i18n="empty_fav_title">Bạn chưa lưu chỗ ở nào</h3>
+          <p data-i18n="empty_fav_desc">Hãy khám phá và thả tim cho những nơi bạn thích nhé!</p>
+          <a href="explore.html" class="btn btn-primary" data-i18n="btn_explore_now">Khám phá ngay</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- modal confirm chỉ có 1 bản, không lặp -->
+  <div class="modal-overlay" id="confirm-modal-overlay">
+    <div class="modal-container" id="confirm-modal" style="max-width: 400px; text-align: center; padding: 30px;">
+      <i class="fas fa-exclamation-circle" style="font-size: 50px; color: #ff9f43; margin-bottom: 20px;"></i>
+      <h3 style="margin-bottom: 10px;" data-i18n="modal_del_title">Xác nhận xóa</h3>
+      <p style="color: #666; margin-bottom: 25px;" data-i18n="modal_del_desc">Bạn có chắc chắn muốn bỏ khách sạn này khỏi danh sách yêu thích?</p>
+      <div style="display: flex; gap: 15px; justify-content: center;">
+        <button id="btn-cancel-remove" class="btn btn-secondary" style="border: 1px solid #ddd;" data-i18n="btn_cancel">Hủy bỏ</button>
+        <button id="btn-confirm-remove" class="btn btn-primary" style="background: #ff4757; border: none;" data-i18n="btn_delete">Xóa ngay</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="shared-modals"></div>
+  <div id="shared-footer"></div>
+
+  <!-- chatbot (1 bản) -->
+    <button class="chatbot-toggler">
+        <span class="material-symbols-rounded"><i class="fas fa-comment-dots"></i></span>
+        <img src="../assets/images/chatbotlogo.png" alt="bot icon" class="chatbot-icon">
+        <span class="material-symbols-outlined"><i class="fas fa-times"></i></span>
+    </button>
+
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <div class="header-info">
+                <img src="../assets/images/chatbotlogo.png" alt="bot icon">
+                <span>AI StayWise</span>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <ul class="chat-box">
+            <li class="chat-message incoming">
+                <img src="../assets/images/chatbotlogo.png" alt="bot-icon" class="bot-icon">
+                <div class="message-content">
+                    <p>Xin chào! Tôi là AI của StayWise. Tôi có thể giúp bạn tìm khách sạn ưng ý.</p>
+                </div>
+            </li>
+        </ul>
+
+        <div class="chat-input">
+            <textarea placeholder="Nhập tin nhắn..." spellcheck="false" required></textarea>
+            <span id="send-btn" class="material-symbols-rounded"><i class="fas fa-paper-plane"></i></span>
+        </div>
+    </div>
+
+  <!-- Scripts -->
+  <script src="../js/include-layout.js"></script>
+  <script type="module" src="../js/auth.js"></script>
+  <script src="../js/chatbot.js" defer></script>
+  <script type="module" src="../js/favourite.js"></script> <!-- chỉ 1 lần -->
+  <script src="../js/settings.js" defer></script>
+
+</body>
+</html>

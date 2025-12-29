@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayWise - Thông tin</title>
+    <link rel="stylesheet" href="css/information_page.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="../css/chatbot.css">
+
+</head>
+
+<body>
+
+    <div id="shared-header"></div>
+
+    <main class="info-page">
+
+        <div class="modal-overlay" id="gallery-modal-overlay">
+            <div class="gallery-modal-content">
+                <button class="modal-close-btn" id="gallery-close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+
+                <div class="modal-image-container">
+                    <img
+                        id="modal-main-image"
+                        src=""
+                        alt="Hình ảnh khách sạn lớn"
+                        class="modal-main-image"
+                    />
+
+                    <button class="gallery-nav-btn prev-btn-modal" id="gallery-prev-btn">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+
+                    <button class="gallery-nav-btn next-btn-modal" id="gallery-next-btn">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+
+                <div id="modal-image-caption" class="modal-image-caption"></div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="description-modal-overlay">
+            <div class="description-modal-container">
+                <button class="modal-close-btn" id="description-close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+
+                <h2 class="modal-heading" data-i18n="info_modal_desc_title">Mô tả Khách sạn</h2>
+
+                <div id="full-description-content" class="full-description-content-scroll">
+                </div>
+
+            </div>
+        </div>
+
+
+        <section class="info-container">
+            <div class="info-floating-actions">
+                <button class="favorite-btn" data-hotel-id="info-page">
+                    <i class="bi bi-heart-fill"></i>
+                </button>
+
+                <button class="copy-link-btn">
+                    <i class="fas fa-link"></i>
+                </button>
+            </div>
+        </section>
+
+            <section class="info-image-wrapper">
+                <div class="info-left">
+                    <div class="info-slider-container">
+                        <div id="slider-track" class="slider-track"></div>
+
+                        <button class="slider-btn prev-btn">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        <button class="slider-btn next-btn">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="info-right">
+                    <div class="placeholder-right">
+                        <iframe 
+                            id="hotel-map-frame"
+                            src="" 
+                            width="100%" 
+                            height="450px" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-details-wrapper">
+                <div class="info-details-container">
+                    <h1 id="hotel-name" class="hotel-name">Tên Khách Sạn...</h1>
+
+                    <div class="details-row">
+
+                        <div class="details-left">
+                            <div class="hotel-location">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span id="hotel-location-text">Địa chỉ khách sạn</span>
+                            </div>
+
+                            <div class="hotel-type">
+                                <span id="hotel-type-text">Loại hình lưu trú</span>
+                            </div>
+
+                            <div class="hotel-rating">
+                                <i class="bi bi-star-fill"></i>
+                                <span id="hotel-rating-text">Đánh giá (Số lượng)</span>
+                            </div>
+                        </div>
+
+                        <div class="details-right">
+                            <p class="price-label" data-i18n="info_price_label">Giá/ 1 phòng/ 1 đêm từ</p>
+                            <button id="hotel-price-btn" class="price-btn">VNĐ 0</button>
+                        </div>
+
+                    </div>
+
+                    <hr class="separator">
+                </div>
+            </section>
+            <section class="info-description-wrapper">
+        <div class="info-details-container">
+            <h2 class="description-heading" data-i18n="info_desc_heading">Mô tả khách sạn</h2>
+
+            <div id="hotel-description-content" class="hotel-description collapsed"></div>
+
+            <button id="show-full-description" class="btn btn-link hidden" data-i18n="btn_show_more_desc">Xem thêm mô tả chi tiết</button>
+
+            <hr class="separator">
+        </div>
+    </section>
+
+    <style>
+    .hotel-description {
+    max-height: 120px;
+    overflow: hidden;
+    position: relative;
+    font-size: 15px;
+    color: #444;
+    line-height: 1.6;
+    }
+    .hotel-description.collapsed::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(to top, #fff, transparent);
+    }
+    .btn-link {
+    background: none;
+    border: none;
+    color: #31B3D9;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    }
+    .btn-link.hidden {
+    display: none;
+    }
+    .description-modal {
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 30px;
+    }
+    .full-description-content {
+    white-space: normal;
+    line-height: 1.7;
+    color: #333;
+    }
+    </style>
+
+        <section class="info-facilities-wrapper">
+            <div class="info-details-container">
+                <h2 class="facilities-heading" data-i18n="info_fac_heading">Các tiện ích chính</h2>
+
+                <div id="main-facilities-list" class="main-facilities-list"></div>
+
+                <hr class="separator">
+            </div>
+        </section>
+
+        <section class="info-attractions-wrapper">
+            <div class="info-details-container">
+                <h2 class="attractions-heading" data-i18n="info_attract_heading">Địa điểm lân cận</h2>
+
+                <div id="attractions-list" class="attractions-list"></div>
+
+                <hr class="separator">
+            </div>
+        </section>
+
+        <section class="info-all-facilities-wrapper">
+            <div class="info-details-container">
+                <h2 class="all-facilities-heading" data-i18n="info_all_fac_heading">Tất cả tiện ích</h2>
+
+                <div class="grouped-facilities-list">
+
+                    <div class="facility-group-column">
+                        <h3 data-i18n="fac_group_service">Tiện ích dịch vụ</h3>
+                        <div id="servicesFacilities-list" class="facility-sub-list"></div>
+                    </div>
+
+                    <div class="facility-group-column">
+                        <h3 data-i18n="fac_group_public">Tiện ích công cộng</h3>
+                        <div id="publicFacilities-list" class="facility-sub-list"></div>
+                    </div>
+
+                    <div class="facility-group-column">
+                        <h3 data-i18n="fac_group_general">Tiện ích chung</h3>
+                        <div id="generalFacilities-list" class="facility-sub-list"></div>
+                    </div>
+
+                    <div class="facility-group-column">
+                        <h3 data-i18n="fac_group_room">Tiện ích phòng</h3>
+                        <div id="roomFacilities-list" class="facility-sub-list"></div>
+                    </div>
+
+                </div>
+
+                <hr class="separator">
+            </div>
+        </section>
+
+        <section class="info-reviews-wrapper">
+            <div class="info-details-container">
+                <h2 class="reviews-heading" style="color: #31B3D9;" data-i18n="info_review_heading">Đánh giá của khách hàng</h2>
+
+                <div class="review-tabs-container">
+                    <div id="tab-staywise" class="review-tab active" data-source="staywise">
+                        Staywise (<span id="staywise-count">0</span>)
+                    </div>
+                    <div id="tab-other" class="review-tab" data-source="other">
+                        <span data-i18n="tab_other_source">Các nguồn khác</span> (<span id="other-count">0</span>)
+                    </div>
+                </div>
+
+                <div id="review-content-wrapper">
+
+                    <div id="staywise-content" class="review-content active">
+
+                        <div class="average-score-section">
+
+                            <div class="score-overall">
+                                <div id="overall-score" class="score-box">0.0</div>
+                                <p class="score-label">
+                                    <span data-i18n="from_text">Từ</span> <span id="review-total-count">0</span> <span data-i18n="reviews_text">đánh giá</span>
+                                </p>
+                            </div>
+
+                            <div class="score-summary-label">
+                                <h3 id="overall-summary-text-staywise">Xuất sắc</h3>
+                                <p data-i18n="by_staywise_guest">Bởi khách du lịch trong Staywise</p>
+                            </div>
+
+                            <div id="detailed-scores-container-staywise" class="detailed-scores"></div>
+                        </div>
+
+                        <hr class="separator">
+
+                        <div id="staywise-reviews-list" class="reviews-list"></div>
+
+                        <div id="staywise-pagination" class="pagination-reviews"></div>
+
+                        <hr id="form-separator" class="separator">
+
+                        <div id="review-form-container" class="review-form-container">
+                            <h3 class="form-heading" data-i18n="review_form_title">Viết đánh giá của bạn</h3>
+                            <form id="submit-review-form">
+
+                                <label for="review-score" data-i18n="lbl_review_score">Điểm đánh giá (1 - 10)</label>
+                                <input type="text" id="review-score" min="1" max="10" required>
+
+                                <label for="review-comment" data-i18n="lbl_review_comment">Nhận xét của bạn</label>
+                                <textarea id="review-comment" rows="4" data-i18n="ph_review_comment" placeholder="Chia sẻ trải nghiệm của bạn" required></textarea>
+
+                                <button type="submit" class="submit-review-btn" data-i18n="btn_send_review">Gửi đánh giá</button>
+                            </form>
+                        </div>
+
+                    </div>
+
+                    <div id="other-content" class="review-content">
+
+                        <div class="average-score-section">
+
+                            <div class="score-overall">
+                                <div id="overall-score-other" class="score-box">0.0</div>
+                                <p class="score-label">
+                                    <span data-i18n="from_text">Từ</span> <span id="review-total-count-other">0</span> <span data-i18n="reviews_text">đánh giá</span>
+                                </p>
+                            </div>
+
+                            <div class="score-summary-label">
+                                <h3 id="overall-summary-text-other">Xuất sắc</h3>
+                                <p data-i18n="from_other_source">Từ các nguồn đánh giá khác</p>
+                            </div>
+
+                            <div id="detailed-scores-container-other" class="detailed-scores"></div>
+                        </div>
+
+                        <hr class="separator">
+
+                        <div id="other-reviews-list" class="reviews-list"></div>
+
+                        <div id="other-pagination" class="pagination-reviews"></div>
+                    </div>
+
+                </div>
+        </section>
+
+    </main>
+
+    <div id="shared-modals"></div>
+            <div id="shared-footer"></div>
+            
+    <div class="modal-overlay" id="delete-confirm-modal">
+        <div class="modal-container" id="delete-modal" style="max-width: 400px; text-align: center; padding: 30px;">
+            <i class="fas fa-exclamation-circle" 
+                style="font-size: 50px; color: #ff9f43; margin-bottom: 20px;"></i>
+            
+            <h3 style="margin-bottom: 10px;" data-i18n="del_review_title">Xác nhận xóa bình luận</h3>
+            <p style="color: #666; margin-bottom: 25px;" data-i18n="del_review_desc">
+                Bạn có chắc chắn muốn xóa bình luận này? Hành động này không thể hoàn tác.
+            </p>
+
+      <div style="display: flex; gap: 15px; justify-content: center;">
+          <button id="btn-cancel-delete" 
+                  class="btn btn-secondary" 
+                  style="border: 1px solid #ddd;" data-i18n="btn_cancel">
+              Hủy bỏ
+          </button>
+          <button id="btn-confirm-delete" 
+                  class="btn btn-primary" 
+                  style="background: #ff4757; border: none;" data-i18n="btn_delete_now">
+              Xóa ngay
+          </button>
+      </div>
+  </div>
+</div>
+
+<style>
+/* Modal overlay nền mờ */
+#delete-confirm-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Khi hiển thị */
+#delete-confirm-modal.visible {
+  display: flex;
+}
+
+/* Container chính của modal */
+#delete-confirm-modal .modal-container {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  animation: popIn 0.25s ease;
+}
+
+/* Animation nhẹ khi bật lên */
+@keyframes popIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Nút bấm */
+#delete-confirm-modal button {
+  font-family: 'Open Sans', sans-serif;
+  padding: 8px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+#delete-confirm-modal #btn-cancel-delete:hover {
+  background: #f1f1f1;
+}
+
+#delete-confirm-modal #btn-confirm-delete:hover {
+  background: #e84118;
+}
+</style>
+    
+    <script type="module" src="js/auth.js"></script>
+
+    <script type="module" src="js/information_page.js"></script>
+
+    <script src="js/include-layout.js"></script>
+
+    <script src="js/settings.js" defer></script>
+
+    <button class="chatbot-toggler">
+        <span class="material-symbols-rounded"><i class="fas fa-comment-dots"></i></span>
+        <img src="assets/images/chatbotlogo.png" alt="bot icon" class="chatbot-icon">
+        <span class="material-symbols-outlined"><i class="fas fa-times"></i></span>
+    </button>
+
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <div class="header-info">
+                <img src="assets/images/chatbotlogo.png" alt="bot icon">
+                <span>AI StayWise</span>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <ul class="chat-box">
+            <li class="chat-message incoming">
+                <img src="assets/images/chatbotlogo.png" alt="bot-icon" class="bot-icon">
+                <div class="message-content">
+                    <p>Xin chào! Tôi là AI của StayWise. Tôi có thể giúp bạn tìm khách sạn ưng ý.</p>
+                </div>
+            </li>
+        </ul>
+
+        <div class="chat-input">
+            <textarea placeholder="Nhập tin nhắn..." spellcheck="false" required></textarea>
+            <span id="send-btn" class="material-symbols-rounded"><i class="fas fa-paper-plane"></i></span>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <script src="js/chatbot.js" defer></script>
+
+</body>
+
+</html>

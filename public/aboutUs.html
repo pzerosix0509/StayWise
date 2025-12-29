@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayWise - Về Chúng Tôi</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="../css/aboutUs.css"> 
+    <link rel="stylesheet" href="../css/chatbot.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="shared-header"></div>
+
+    <main class="about-page">
+        <section class="about-hero">
+            <div class="container">
+                <h1 class="hero-title" data-i18n="about_hero_title">Về StayWise</h1>
+                <p class="hero-subtitle" data-i18n="about_hero_desc">
+                    Nền tảng du lịch thông minh hàng đầu Việt Nam, mang đến trải nghiệm tìm kiếm, 
+                    lựa chọn chỗ ở, lưu trú du lịch tối ưu với công nghệ AI
+                </p>
+            </div>
+        </section>
+        
+        <section class="vision-mission-wrapper">
+            <div class="container vision-mission-container">
+                
+                <div class="vision-box info-box">
+                    <div class="icon-circle">
+                        <i class="bi bi-eye"></i> </div>
+                    <h2 class="box-title" data-i18n="about_vision_title">Tầm nhìn</h2>
+                    <p class="box-content" data-i18n="about_vision_desc">
+                        Trở thành nền tảng du lịch thông minh số 1 Việt Nam, kết nối hàng triệu du khách với những điểm đến tuyệt vời, đồng thời thúc đẩy phát triển du lịch bền vững và mang lại giá trị cho cộng đồng địa phương.
+                    </p>
+                </div>
+
+                <div class="mission-box info-box">
+                    <div class="icon-circle">
+                        <i class="bi bi-rocket-takeoff"></i> </div>
+                    <h2 class="box-title" data-i18n="about_mission_title">Sứ mệnh</h2>
+                    <p class="box-content" data-i18n="about_mission_desc">
+                        Chúng tôi cam kết mang đến cho du khách trải nghiệm du lịch tuyệt vời tại Việt Nam thông qua việc kết hợp công nghệ AI tiên tiến với dịch vụ chăm sóc khách hàng tận tâm, giúp mọi chuyến đi trở nên dễ dàng, thuận tiện và đáng nhớ.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="values-wrapper">
+            <div class="container">
+                <h2 class="section-heading" data-i18n="about_core_values">Giá trị cốt lõi</h2>
+                <div class="core-values-container">
+                    
+                    <div class="value-item">
+                        <h3 class="value-title" data-i18n="val_customer_title">Khách hàng là trung tâm</h3>
+                        <p class="value-description" data-i18n="val_customer_desc">
+                            Luôn đặt nhu cầu và trải nghiệm của khách hàng lên hàng đầu trong mọi quyết định.
+                        </p>
+                    </div>
+
+                    <div class="value-item">
+                        <h3 class="value-title" data-i18n="val_innovation_title">Đổi mới sáng tạo</h3>
+                        <p class="value-description" data-i18n="val_innovation_desc">
+                            Không ngừng ứng dụng công nghệ mới để cải thiện dịch vụ và trải nghiệm người dùng.
+                        </p>
+                    </div>
+
+                    <div class="value-item">
+                        <h3 class="value-title" data-i18n="val_quality_title">Chất lượng vượt trội</h3>
+                        <p class="value-description" data-i18n="val_quality_desc">
+                            Cam kết cung cấp dịch vụ và sản phẩm chất lượng cao nhất cho mọi khách hàng.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="shared-modals"></div>
+    <div id="shared-footer"></div>
+
+    <script src="../js/settings.js"></script>
+    <script src="../js/include-layout.js"></script>
+
+    <script type="module" src="../js/auth.js"></script>
+
+   <button class="chatbot-toggler">
+        <span class="material-symbols-rounded"><i class="fas fa-comment-dots"></i></span>
+        <img src="../assets/images/chatbotlogo.png" alt="bot icon" class="chatbot-icon">
+        <span class="material-symbols-outlined"><i class="fas fa-times"></i></span>
+    </button>
+
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <div class="header-info">
+                <img src="../assets/images/chatbotlogo.png" alt="bot icon">
+                <span>AI StayWise</span>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <ul class="chat-box">
+            <li class="chat-message incoming">
+                <img src="../assets/images/chatbotlogo.png" alt="bot-icon" class="bot-icon">
+                <div class="message-content">
+                    <p data-i18n="chatbot_welcome">Xin chào! Tôi là AI của StayWise. Tôi có thể giúp bạn tìm khách sạn ưng ý.</p>
+                </div>
+            </li>
+        </ul>
+
+        <div class="chat-input">
+            <textarea placeholder="Nhập tin nhắn..." spellcheck="false" required></textarea>
+            <span id="send-btn" class="material-symbols-rounded"><i class="fas fa-paper-plane"></i></span>
+        </div>
+    </div>
+    <script src="../js/chatbot.js" defer></script>
+    
+
+</body>
+</html>

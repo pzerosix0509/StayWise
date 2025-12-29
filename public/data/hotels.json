@@ -1,0 +1,94 @@
+{
+  "hotels": [
+    {
+      "id": "vinpearl-hoian",
+      "name": "Vinpearl Resort & Golf Nam Hội An",
+      "location": "Hội An, Quảng Nam",
+      "description": "Resort 5 sao với sân golf và spa cao cấp",
+      "suggestions": [
+        "Bạn muốn biết giá phòng của Vinpearl Resort & Golf Nam Hội An không?",
+        "Resort này có sân golf 36 lỗ được thiết kế bởi IMG Worldwide",
+        "Vinpearl có spa cao cấp và bãi biển riêng tuyệt đẹp",
+        "Bạn có muốn xem các tiện ích của resort này không?"
+      ],
+      "images": [
+        "https://th.bing.com/th/id/OIP.RpujfAtQ-axTbQWwhxDc1gHaEt?w=258&h=180&c=7&r=0&o=7&cb=ucfimgc2&pid=1.7&rm=3"
+      ],
+      "rating": 4.8,
+      "priceRange": "3,000,000 - 8,000,000 VNĐ/đêm"
+    },
+    {
+      "id": "intercontinental-hanoi",
+      "name": "InterContinental Hanoi Westlake",
+      "location": "Hà Nội",
+      "description": "Khách sạn sang trọng trên Hồ Tây với view tuyệt đẹp",
+      "suggestions": [
+        "InterContinental Hanoi có view Hồ Tây tuyệt đẹp",
+        "Khách sạn này nổi tiếng với nhà hàng Sunset Bar",
+        "Bạn muốn biết về các gói spa tại đây không?",
+        "Có dịch vụ đưa đón sân bay miễn phí cho khách VIP"
+      ],
+      "images": [
+        "https://tse1.mm.bing.net/th/id/OIP.OHnGSW5S8Iy5mytNDfVcBQHaE7?cb=ucfimgc2&rs=1&pid=ImgDetMain&o=7&rm=3"
+      ],
+      "rating": 4.9,
+      "priceRange": "2,500,000 - 6,000,000 VNĐ/đêm"
+    },
+    {
+      "id": "furama-danang",
+      "name": "Furama Resort Đà Nẵng",
+      "location": "Đà Nẵng",
+      "description": "Resort biển với bãi tắm riêng và nhiều hoạt động ngoài trời",
+      "suggestions": [
+        "Furama Resort có bãi biển riêng dài 200m",
+        "Resort này có 4 nhà hàng phục vụ ẩm thực đa dạng",
+        "Bạn có muốn tìm hiểu về các hoạt động thể thao dưới nước không?",
+        "Furama có Kids Club miễn phí cho trẻ em"
+      ],
+      "images": [
+        "https://furamavietnam.com/wp-content/uploads/2025/05/Furama-Courtyard-2-1024x683.png"
+      ],
+      "rating": 4.7,
+      "priceRange": "2,000,000 - 5,000,000 VNĐ/đêm"
+    },
+    {
+      "id": "jw-marriott-phuquoc",
+      "name": "JW Marriott Phu Quoc Emerald Bay",
+      "location": "Phú Quốc, Kiên Giang",
+      "description": "Resort biển độc đáo với kiến trúc Pháp cổ điển",
+      "suggestions": [
+        "JW Marriott Phú Quốc có kiến trúc theo phong cách Pháp độc đáo",
+        "Resort này được thiết kế bởi kiến trúc sư nổi tiếng Bill Bensley",
+        "Bạn muốn biết về các villa có hồ bơi riêng không?",
+        "Có tour tham quan đảo và lặn ngắm san hô"
+      ],
+      "images": [
+        "https://th.bing.com/th/id/OIP.UvyjhwNSckLM5-LSb-ndUQHaFI?w=255&h=180&c=7&r=0&o=7&cb=ucfimgc2&pid=1.7&rm=3"
+      ],
+      "rating": 4.9,
+      "priceRange": "4,000,000 - 10,000,000 VNĐ/đêm"
+    },
+    {
+      "id": "sample-hotel-saigon",
+      "name": "The Reverie Saigon",
+      "location": "TP. Hồ Chí Minh",
+      "description": "Khách sạn boutique sang trọng giữa lòng Sài Gòn",
+      "suggestions": [
+        "The Reverie có thiết kế nội thất Italia siêu sang trọng",
+        "Khách sạn này có nhà hàng R&J được sao Michelin ghi nhận",
+        "Bạn có muốn biết về dịch vụ butler cá nhân không?",
+        "Có rooftop bar với view toàn cảnh thành phố"
+      ],
+      "images": [
+        "https://via.placeholder.com/400x250/4A90E2/FFFFFF?text=The+Reverie+Saigon"
+      ],
+      "rating": 4.8,
+      "priceRange": "5,000,000 - 15,000,000 VNĐ/đêm"
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "lastUpdated": "2025-01-26",
+    "description": "Dữ liệu mẫu cho chatbot gợi ý khách sạn"
+  }
+}

@@ -1,0 +1,380 @@
+/* aboutUs.css */
+
+/* --- 1. BANNER TIÊU ĐỀ --- */
+.about-hero {
+    background-color: #31B3D9; /* Màu xanh nhạt */
+    color: white;
+    padding: 60px 0;
+    text-align: center;
+    border-bottom: 1px solid #c9e6f3;
+}
+
+.about-hero .hero-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: white;; /* Đảm bảo tiêu đề chính màu xanh */
+}
+
+.about-hero .hero-subtitle {
+    font-size: 1rem;
+    max-width: 700px;
+    margin: 0 auto;
+    color: white;
+}
+
+/* --- 2. TẦM NHÌN & SỨ MỆNH (2 CỘT) --- */
+.vision-mission-wrapper {
+    padding: 40px 0 60px 0;
+    background-color: #f7f7f7;
+}
+
+.vision-mission-container {
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.info-box {
+    flex: 1;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.icon-circle {
+    background-color: #31B3D9;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 15px auto;
+}
+
+/* ========================================= RESPONSIVE ========================================= */
+
+/* Mobile devices (up to 480px) */
+@media only screen and (max-width: 480px) {
+    .about-hero {
+        padding: 40px 0;
+    }
+
+    .about-hero .hero-title {
+        font-size: 1.5rem;
+    }
+
+    .about-hero .hero-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .vision-mission-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .info-box {
+        padding: 20px;
+    }
+}
+
+/* Tablet devices (481px to 768px) */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+    .vision-mission-container {
+        flex-direction: column;
+        gap: 25px;
+    }
+}
+
+.box-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #31B3D9;
+    margin-bottom: 10px;
+}
+
+.box-content {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #666;
+}
+
+/* --- 3. GIÁ TRỊ CỐT LÕI (3 CỘT) --- */
+.values-wrapper {
+    padding: 40px 0 80px 0;
+}
+
+.section-heading {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #31B3D9;
+    margin-bottom: 40px;
+}
+
+.core-values-container {
+    display: flex;
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.value-item {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    text-align: center;
+}
+/* Tạo đường viền xanh dưới tiêu đề (giống hình) */
+.value-item:nth-child(1) { border-top: 5px solid #31B3D9; }
+.value-item:nth-child(2) { border-top: 5px solid #31B3D9; }
+.value-item:nth-child(3) { border-top: 5px solid #31B3D9; }
+
+
+.value-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.value-description {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .vision-mission-container,
+    .core-values-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .info-box, .value-item {
+        max-width: 500px;
+        margin-bottom: 20px;
+    }
+}
+
+/* Nút mở Chatbot nổi */
+.chatbot-toggler {
+    position: fixed;
+    bottom: 30px;
+    right: 35px;
+    outline: none;
+    border: none;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #4A90E2;
+    transition: all 0.2s ease;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.chatbot-toggler span {
+    position: absolute; /* Quan trọng: để 2 icon đè lên nhau cùng 1 vị trí */
+    color: #fff;
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+/* Mặc định: Ẩn icon dấu X (icon thứ 2) đi */
+.chatbot-toggler span:last-child {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.5); /* Hiệu ứng xoay nhỏ */
+}
+
+/* Mặc định: Hiện icon tin nhắn (icon thứ 1) */
+.chatbot-toggler span:first-child {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+/* KHI MỞ CHAT (body có class show-chatbot) */
+
+/* 1. Ẩn icon tin nhắn đi */
+body.show-chatbot .chatbot-toggler span:first-child {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.5);
+}
+
+/* 2. Hiện icon dấu X lên */
+body.show-chatbot .chatbot-toggler span:last-child {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+body.show-chatbot .chatbot-toggler i {
+    transform: rotate(90deg); /* Xoay icon khi mở */
+}
+
+/* Cửa sổ Chatbot */
+.chatbot-container {
+    position: fixed;
+    right: 35px;
+    bottom: 90px;
+    width: 380px;
+    height: 550px;
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.5);
+    transform-origin: bottom right;
+    box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1), 0 32px 64px -48px rgba(0, 0, 0, 0.5);
+    transition: all 0.1s ease;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+}
+
+body.show-chatbot .chatbot-container {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+/* Header */
+.chat-header {
+    background: #4A90E2;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+}
+
+.chat-header .header-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chat-header img {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    background: #fff;
+}
+
+.chat-header .close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+/* Chat Box */
+.chat-box {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #f0f2f5;
+}
+
+/* Tin nhắn */
+.chat-message {
+    display: flex;
+    list-style: none;
+    align-items: flex-end;
+}
+
+.chat-message.outgoing {
+    justify-content: flex-end;
+}
+
+.chat-message .message-content {
+    max-width: 75%;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.chat-message.outgoing .message-content {
+    background: #4A90E2;
+    color: #fff;
+    border-radius: 10px 10px 0 10px;
+}
+
+.chat-message.incoming .message-content {
+    background: #fff;
+    color: #000;
+    border-radius: 10px 10px 10px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.chat-message.incoming .bot-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+/* Input Area */
+.chat-input {
+    display: flex;
+    gap: 5px;
+    background: #fff;
+    padding: 10px 20px;
+    border-top: 1px solid #ddd;
+}
+
+.chat-input textarea {
+    height: 45px;
+    width: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+    padding: 12px 0;
+    font-size: 0.95rem;
+}
+
+.chat-input span {
+    align-self: center;
+    color: #4A90E2;
+    cursor: pointer;
+    font-size: 1.35rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 490px) {
+    .chatbot-container {
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+        border-radius: 0;
+    }
+    .chatbot-toggler {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+/* Markdown Styles bên trong tin nhắn */
+.message-content strong { font-weight: bold; }
+.message-content ul { padding-left: 20px; margin: 5px 0; }
+.message-content img { max-width: 100%; border-radius: 8px; margin-top: 5px; }

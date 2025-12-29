@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayWise - FAQ</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/chatbot.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+
+    <style>
+        .faq-header {
+            background-color: #f0f7ff;
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .faq-header h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+
+        .faq-group {
+            margin-bottom: 30px;
+        }
+
+        .faq-group h2 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Style cho Accordion (Hộp câu hỏi) */
+        details {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        details[open] {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.15);
+        }
+
+        summary {
+            padding: 15px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            list-style: none;
+            position: relative;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary:after {
+            content: '+';
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+
+        details[open] summary:after {
+            transform: rotate(45deg); /* Xoay dấu cộng thành dấu nhân */
+        }
+
+        details[open] summary {
+            border-bottom: 1px solid #eee;
+            background-color: #fbfbfb;
+            color: var(--primary-color);
+        }
+
+        .faq-answer {
+            padding: 20px;
+            color: #555;
+            line-height: 1.6;
+            background-color: #fff;
+        }
+
+        .contact-support {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="shared-header"></div>
+
+    <main>
+        <section class="faq-header">
+            <div class="container">
+                <h1 data-i18n="faq_header_title">Câu hỏi thường gặp</h1>
+                <p data-i18n="faq_header_subtitle">Chúng tôi có thể giúp gì cho bạn?</p>
+            </div>
+        </section>
+
+        <div class="faq-container">
+            
+            <div class="faq-group">
+                <h2 data-i18n="faq_group_account">Tài khoản & Đặt phòng</h2>
+                
+                <details>
+                    <summary data-i18n="faq_q1_text">Làm thế nào để đặt phòng trên StayWise?</summary>
+                    <div class="faq-answer" data-i18n="faq_a1_text">
+                        Bạn có thể tìm kiếm khách sạn theo địa điểm, ngày đi và số lượng người. Sau đó chọn khách sạn ưng ý, xem chi tiết phòng và nhấn nút "Đặt ngay". Bạn cũng có thể nhờ Chatbot AI gợi ý khách sạn phù hợp.
+                    </div>
+                </details>
+
+                <details>
+                    <summary data-i18n="faq_q2_text">Tôi có cần tạo tài khoản để đặt phòng không?</summary>
+                    <div class="faq-answer" data-i18n="faq_a2_text">
+                        Không bắt buộc. Tuy nhiên, chúng tôi khuyên bạn nên đăng ký tài khoản để dễ dàng quản lý lịch sử đặt phòng, nhận ưu đãi riêng và lưu danh sách khách sạn yêu thích.
+                    </div>
+                </details>
+            </div>
+
+            <div class="faq-group">
+                <h2 data-i18n="faq_group_payment">Thanh toán & Hủy phòng</h2>
+
+                <details>
+                    <summary data-i18n="faq_q3_text">Chính sách hủy phòng như thế nào?</summary>
+                    <div class="faq-answer" data-i18n="faq_a3_text">
+                        Chính sách hủy phòng phụ thuộc vào từng khách sạn cụ thể. Thông tin này được hiển thị rõ ràng trong trang chi tiết phòng và email xác nhận đặt phòng.
+                    </div>
+                </details>
+
+                <details>
+                    <summary data-i18n="faq_q4_text">Giá hiển thị đã bao gồm thuế và phí chưa?</summary>
+                    <div class="faq-answer" data-i18n="faq_a4_text">
+                        Giá hiển thị trên kết quả tìm kiếm là giá cơ bản. Tổng chi phí bao gồm thuế và phí dịch vụ sẽ được hiển thị chi tiết ở bước thanh toán cuối cùng trước khi bạn xác nhận.
+                    </div>
+                </details>
+            </div>
+
+            <div class="faq-group">
+                <h2 data-i18n="faq_group_ai">Về Chatbot AI</h2>
+
+                <details>
+                    <summary data-i18n="faq_q5_text">Chatbot AI của StayWise có thể làm gì?</summary>
+                    <div class="faq-answer" data-i18n="faq_a5_text">
+                        Chatbot của chúng tôi có thể trả lời các câu hỏi về địa điểm du lịch, gợi ý khách sạn dựa trên sở thích (ví dụ: "Tìm resort có hồ bơi ở Nha Trang giá dưới 2 triệu"), và hỗ trợ giải đáp thắc mắc cơ bản.
+                    </div>
+                </details>
+
+                <details>
+                    <summary data-i18n="faq_q6_text">Thông tin từ AI có chính xác tuyệt đối không?</summary>
+                    <div class="faq-answer" data-i18n="faq_a6_text">
+                        AI của chúng tôi được huấn luyện để đưa ra thông tin tốt nhất, nhưng nó vẫn có thể gặp sai sót hoặc dữ liệu chưa cập nhật kịp thời. Chúng tôi khuyến khích bạn kiểm tra lại thông tin chi tiết trên trang khách sạn trước khi đặt.
+                    </div>
+                </details>
+            </div>
+
+            <div class="contact-support">
+                <h3 data-i18n="faq_contact_title">Vẫn chưa tìm thấy câu trả lời?</h3>
+                <p data-i18n="faq_contact_desc">Đừng ngần ngại liên hệ với đội ngũ hỗ trợ của chúng tôi.</p>
+                <a href="contact.html" class="btn btn-primary" style="text-decoration: none; display: inline-block;" data-i18n="faq_btn_contact">Đặt câu hỏi ngay</a>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="shared-modals"></div>
+    <div id="shared-footer"></div>
+
+    <button class="chatbot-toggler">
+        <span class="material-symbols-rounded"><i class="fas fa-comment-dots"></i></span>
+        <img src="../assets/images/chatbotlogo.png" alt="bot icon" class="chatbot-icon">
+        <span class="material-symbols-outlined"><i class="fas fa-times"></i></span>
+    </button>
+
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <div class="header-info">
+                <img src="../assets/images/chatbotlogo.png" alt="bot icon">
+                <span data-i18n="chatbot_header">AI StayWise</span>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <ul class="chat-box">
+            <li class="chat-message incoming">
+                <img src="../assets/images/chatbotlogo.png" alt="bot-icon" class="bot-icon">
+                <div class="message-content">
+                    <p data-i18n="chatbot_welcome">Xin chào! Tôi là AI của StayWise. Tôi có thể giúp bạn tìm khách sạn ưng ý.</p>
+                </div>
+            </li>
+        </ul>
+
+        <div class="chat-input">
+            <textarea data-i18n="chatbot_placeholder" placeholder="Nhập tin nhắn..." spellcheck="false" required></textarea>
+            <span id="send-btn" class="material-symbols-rounded"><i class="fas fa-paper-plane"></i></span>
+        </div>
+    </div>
+    <script src="../js/settings.js"></script>
+    <script src="../js/include-layout.js"></script>
+    <script type="module" src="../js/auth.js"></script>
+    <script src="../js/chatbot.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,442 @@
+/* destination_detail.css */
+
+/* Kế thừa style cơ bản của Hero Section từ Top Reviews */
+.destination-hero {
+    height: 711px;
+    /* Chiều cao banner */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--light-color);
+    padding: 20px;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.5s ease-in-out;
+    margin-top: 75px;
+    position: relative;
+    isolation: isolate;
+}
+
+/* ========================================= RESPONSIVE ========================================= */
+
+/* Mobile devices (up to 480px) */
+@media only screen and (max-width: 480px) {
+    .destination-hero {
+        height: 400px;
+        margin-top: 55px;
+    }
+
+    .hero-pre-title {
+        font-size: 20px;
+    }
+
+    .destination-hero h1 {
+        font-size: 32px;
+    }
+}
+
+/* Tablet devices (481px to 768px) */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+    .destination-hero {
+        height: 550px;
+    }
+
+    .hero-pre-title {
+        font-size: 28px;
+    }
+
+    .destination-hero h1 {
+        font-size: 40px;
+    }
+}
+
+/* Overlay đen mờ (Áp dụng lại style từ top_reviews.css) */
+.destination-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    /* Độ mờ đen */
+    z-index: 1;
+}
+
+/* Căn nội dung chính giữa (Áp dụng lại style từ top_reviews.css) */
+.destination-hero .hero-content {
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 900px;
+}
+
+/* ⭐ FIX: Tiêu đề phụ (StayWise) - Lớn ⭐ */
+.hero-pre-title {
+    font-size: 35px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* ⭐ FIX: Tiêu đề chính (Tên Thành phố) - Nhỏ hơn Tiêu đề phụ ⭐ */
+.hero-main-title {
+    font-size: 55px;
+    font-weight: 900;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.1;
+}
+
+/* ⭐ STYLE MỚI: Dòng Subtitle Hấp dẫn ⭐ */
+.destination-subtitle {
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--light-color);
+    opacity: 0.95;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    margin-bottom: 40px;
+}
+
+/* Logo StayWise */
+.logo-text-styled {
+    color: var(--primary-color);
+    font-weight: 900;
+    text-shadow: none;
+}
+
+/* Ẩn thanh tìm kiếm (Không tồn tại trong HTML, nhưng để đảm bảo) */
+.city-selector-bar {
+    display: none;
+}
+
+/* =======================================================
+   NỘI DUNG CHÍNH (XEN KẼ - Destination Info Blocks)
+   ======================================================= */
+
+.destination-content-section {
+    padding: 60px 0;
+    background-color: var(--light-color);
+}
+
+.destination-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    /* Khoảng cách giữa các thẻ lớn */
+    align-items: center;
+    /* Căn giữa các thẻ 1400px */
+}
+
+/* ⭐ STYLE CHUNG CHO MỖI THẺ NỘI DUNG (4 thẻ) ⭐ */
+.info-card {
+    /* Kích thước cố định theo yêu cầu */
+    width: 100%;
+    max-width: 1400px;
+    height: 300px;
+
+    display: flex;
+    /* Bố cục nội dung và hình ảnh */
+    align-items: stretch;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background: #fff;
+}
+
+/* --- CỘT ẢNH --- */
+.card-image-col {
+    width: 40%;
+    /* 1/2 cho ảnh */
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+
+    /* Tạm thời dùng style nền cho ảnh test */
+    background-size: cover;
+    background-position: center;
+}
+
+.card-image-col img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- CỘT NỘI DUNG --- */
+.card-content-col {
+    width: 60%;
+    /* 1/2 cho nội dung */
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-content-col h3 {
+    /* ⭐ Tiêu đề màu xanh như StayWise ⭐ */
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.card-content-col p {
+    font-size: 16px;
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+/* Nút xem thêm - text link màu xanh */
+.see-more-btn {
+    display: none;
+    background: none;
+    color: var(--primary-color);
+    border: none;
+    padding: 0;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+    margin-top: 10px;
+}
+
+.see-more-btn:hover {
+    color: #2980b9;
+    text-decoration: none;
+}
+
+/* Prevent body scroll khi modal mở */
+body.modal-open {
+    overflow: hidden !important;
+    position: fixed;
+    width: 100%;
+}
+
+/* Modal styles (kế thừa từ information_page) */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.active {
+    display: flex !important;
+}
+
+.description-modal-container {
+    background-color: #fff;
+    width: 90%;
+    max-width: 1200px;
+    max-height: 85vh;
+    border-radius: 12px;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+}
+
+/* Hình ảnh bên trái modal */
+.modal-image-section {
+    width: 45%;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+}
+
+/* Nội dung bên phải modal */
+.modal-content-section {
+    width: 55%;
+    padding: 30px;
+    overflow-y: auto;
+    position: relative;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    z-index: 10;
+}
+
+.modal-close-btn:hover {
+    color: #e74c3c;
+}
+
+.modal-heading {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    margin-top: 0;
+    padding-right: 40px;
+}
+
+.full-description-content-scroll {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--text-color);
+    padding-right: 10px;
+}
+
+/* Responsive modal */
+@media only screen and (max-width: 768px) {
+    .description-modal-container {
+        flex-direction: column;
+        max-width: 95%;
+        max-height: 90vh;
+    }
+    
+    .modal-image-section {
+        width: 100%;
+        height: 250px;
+    }
+    
+    .modal-content-section {
+        width: 100%;
+        padding: 20px;
+    }
+    
+    .modal-heading {
+        font-size: 22px;
+    }
+    
+    .full-description-content-scroll {
+        font-size: 14px;
+    }
+}
+
+
+/* =======================================================
+   BỐ CỤC XEN KẼ (Dòng chẵn)
+   ======================================================= */
+/* Áp dụng cho các thẻ ở vị trí 2 và 4 (index 1 và 3 trong JS) */
+.info-card:nth-child(even) {
+    flex-direction: row-reverse;
+    /* Đảo ngược thứ tự: Nội dung | Hình ảnh */
+}
+
+/* Hiệu ứng: Nội dung (cột 1) bên trái và Hình ảnh (cột 2) bên phải */
+.info-card:nth-child(even) .card-content-col {
+    /* Có thể cần điều chỉnh text-align nếu muốn căn lề phải */
+    text-align: left;
+}
+
+/* =======================================================
+   CTA SECTION (Nút Khám phá Khách sạn)
+   ======================================================= */
+
+.destination-cta-section {
+    padding: 30px 0 60px 0; /* Đảm bảo có khoảng cách với footer */
+    background-color: var(--light-color); 
+    text-align: center; /* Căn giữa nút */
+}
+
+.btn-cta {
+    /* Kế thừa màu xanh primary và chữ trắng từ style.css (.btn-primary) */
+    font-size: 1.2em;
+    font-weight: 700;
+    padding: 15px 35px;
+    border-radius: 8px;
+    
+    /* Đảm bảo nút là block/inline-block để căn giữa */
+    display: inline-block; 
+    
+    /* Thiết lập màu xanh và hover (sử dụng lại vars từ style.css) */
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    transition: background-color 0.2s;
+}
+
+.btn-cta:hover {
+    background-color: #2980b9; /* Màu xanh đậm hơn */
+}
+
+/* =======================================================
+   RESPONSIVE - HIỂN THỊ TOÀN BỘ NỘI DUNG
+   ======================================================= */
+
+/* Tablet nhỏ (481px - 768px): Giới hạn 5 dòng */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+    .info-card {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .card-image-col {
+        width: 100%;
+        height: 200px;
+    }
+    
+    .card-content-col {
+        width: 100%;
+        padding: 20px;
+    }
+    
+    .info-card:nth-child(even) {
+        flex-direction: column;
+    }
+}
+
+/* Mobile (≤480px): Giới hạn 4 dòng */
+@media only screen and (max-width: 480px) {
+    .destination-content-section {
+        padding: 30px 0;
+    }
+    
+    .info-card {
+        flex-direction: column;
+        height: auto;
+        margin: 0 10px;
+    }
+    
+    .card-image-col {
+        width: 100%;
+        height: 180px;
+    }
+    
+    .card-content-col {
+        width: 100%;
+        padding: 15px;
+    }
+    
+    .card-content-col h3 {
+        font-size: 20px;
+    }
+    
+    .card-content-col p {
+        font-size: 14px;
+    }
+    
+    .info-card:nth-child(even) {
+        flex-direction: column;
+    }
+}

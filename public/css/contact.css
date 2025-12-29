@@ -1,0 +1,424 @@
+/* aboutUs.css */
+
+/* BANNER */
+.contact-hero {
+    /* Đảm bảo style giống explore.html */
+    background-color: #31B3D9; 
+    color: white;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.contact-hero .hero-title {
+    font-size: 2.5rem;
+    color: white;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.contact-hero .hero-subtitle {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* KHU VỰC CHÍNH (2 CỘT) */
+.contact-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+}
+
+.contact-container {
+    display: flex;
+    width: 80%;
+    max-width: 1200px;
+    gap: 50px;
+}
+
+/* ========================================= RESPONSIVE ========================================= */
+
+/* Mobile devices (up to 480px) */
+@media only screen and (max-width: 480px) {
+    .contact-hero {
+        padding: 40px 0;
+    }
+
+    .contact-hero .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .contact-hero .hero-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .contact-container {
+        flex-direction: column;
+        width: 95%;
+        gap: 30px;
+    }
+
+    .contact-info-column,
+    .contact-form-column {
+        width: 100%;
+    }
+}
+
+/* Tablet devices (481px to 768px) */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+    .contact-container {
+        flex-direction: column;
+        width: 90%;
+        gap: 40px;
+    }
+}
+
+/* CỘT 1: THÔNG TIN LIÊN HỆ */
+.contact-info-column {
+    flex: 1; /* Chiếm 1 phần */
+    padding-right: 20px;
+}
+
+.contact-info-column .info-heading {
+    color: #31B3D9;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    margin-top: -30px;
+    text-transform: uppercase;
+}
+.contact-form-column .form-heading {
+    color: #31B3D9;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+.info-icon-wrapper {
+    background-color: #31B3D9;
+    color: white;
+    width: 50px; /* Chiều rộng khung (42px + padding) */
+    height: 50px; /* Chiều cao khung */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0; /* Ngăn không bị co lại */
+}
+
+.info-icon-wrapper i {
+    font-size: 20px; /* Cỡ icon bên trong (Tương ứng với yêu cầu 42x50) */
+}
+
+.info-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.info-detail {
+    font-size: 0.95rem;
+    color: #555;
+    margin: 3px 0 0 0;
+}
+
+/* CỘT 2: FORM LIÊN HỆ */
+.contact-form-column {
+    flex: 1; /* Chiếm 1 phần */
+}
+
+.contact-form-box {
+    background-color: #f7f7f7;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form-box label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #444;
+}
+
+
+
+
+/* Responsive cơ bản */
+@media (max-width: 900px) {
+    .contact-container {
+        flex-direction: column;
+        width: 90%;
+    }
+    .contact-info-column {
+        padding-right: 0;
+    }
+}
+.contact-form-box input,
+.contact-form-box textarea {
+    font-family: 'Poppins', 'Segoe UI', Roboto, sans-serif;
+    font-size: 15px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 12px 15px;
+    width: 100%;
+    margin-bottom: 15px;
+    transition: all 0.25s ease;
+    outline: none;
+    box-shadow: 0 0 0 transparent;
+}
+
+.contact-form-box input::placeholder,
+.contact-form-box textarea::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+
+.contact-form-box input:focus,
+.contact-form-box textarea:focus {
+    border-color: #1ad2e3;
+    box-shadow: 0 0 6px rgba(26, 210, 227, 0.4);
+    background-color: #f9ffff;
+}
+
+/* Nút gửi form */
+.submit-contact-btn {
+    font-family: 'Poppins', 'Segoe UI', Roboto, sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    background-color: #1ad2e3;
+    color: white;
+    border: none;
+    transition: background-color 0.25s ease, transform 0.2s ease;
+}
+
+.submit-contact-btn:hover {
+    background-color: #13b8c6;
+    transform: translateY(-2px);
+}
+/* Nút mở Chatbot nổi */
+.chatbot-toggler {
+    position: fixed;
+    bottom: 30px;
+    right: 35px;
+    outline: none;
+    border: none;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #4A90E2;
+    transition: all 0.2s ease;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.chatbot-toggler span {
+    position: absolute; /* Quan trọng: để 2 icon đè lên nhau cùng 1 vị trí */
+    color: #fff;
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+/* Mặc định: Ẩn icon dấu X (icon thứ 2) đi */
+.chatbot-toggler span:last-child {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.5); /* Hiệu ứng xoay nhỏ */
+}
+
+/* Mặc định: Hiện icon tin nhắn (icon thứ 1) */
+.chatbot-toggler span:first-child {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+/* KHI MỞ CHAT (body có class show-chatbot) */
+
+/* 1. Ẩn icon tin nhắn đi */
+body.show-chatbot .chatbot-toggler span:first-child {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.5);
+}
+
+/* 2. Hiện icon dấu X lên */
+body.show-chatbot .chatbot-toggler span:last-child {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+body.show-chatbot .chatbot-toggler i {
+    transform: rotate(90deg); /* Xoay icon khi mở */
+}
+
+/* Cửa sổ Chatbot */
+.chatbot-container {
+    position: fixed;
+    right: 35px;
+    bottom: 90px;
+    width: 380px;
+    height: 550px;
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.5);
+    transform-origin: bottom right;
+    box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1), 0 32px 64px -48px rgba(0, 0, 0, 0.5);
+    transition: all 0.1s ease;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+}
+
+body.show-chatbot .chatbot-container {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+/* Header */
+.chat-header {
+    background: #4A90E2;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+}
+
+.chat-header .header-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chat-header img {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    background: #fff;
+}
+
+.chat-header .close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+/* Chat Box */
+.chat-box {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #f0f2f5;
+}
+
+/* Tin nhắn */
+.chat-message {
+    display: flex;
+    list-style: none;
+    align-items: flex-end;
+}
+
+.chat-message.outgoing {
+    justify-content: flex-end;
+}
+
+.chat-message .message-content {
+    max-width: 75%;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.chat-message.outgoing .message-content {
+    background: #4A90E2;
+    color: #fff;
+    border-radius: 10px 10px 0 10px;
+}
+
+.chat-message.incoming .message-content {
+    background: #fff;
+    color: #000;
+    border-radius: 10px 10px 10px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.chat-message.incoming .bot-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+/* Input Area */
+.chat-input {
+    display: flex;
+    gap: 5px;
+    background: #fff;
+    padding: 10px 20px;
+    border-top: 1px solid #ddd;
+}
+
+.chat-input textarea {
+    height: 45px;
+    width: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+    padding: 12px 0;
+    font-size: 0.95rem;
+}
+
+.chat-input span {
+    align-self: center;
+    color: #4A90E2;
+    cursor: pointer;
+    font-size: 1.35rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 490px) {
+    .chatbot-container {
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+        border-radius: 0;
+    }
+    .chatbot-toggler {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+/* Markdown Styles bên trong tin nhắn */
+.message-content strong { font-weight: bold; }
+.message-content ul { padding-left: 20px; margin: 5px 0; }
+.message-content img { max-width: 100%; border-radius: 8px; margin-top: 5px; }
